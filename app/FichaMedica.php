@@ -13,4 +13,7 @@ class Fichamedica extends Model
     public function cliente() {
         return $this->belongsTo('App\Cliente', 'cliente_id');
     }
+    public function estadoNutricional(){
+        return $this->belongsTo('App\Estadonutricional');
+    }
 }

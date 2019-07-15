@@ -7,36 +7,17 @@
 <hr>
 
 <h2>Ficha Medica</h2>
-<form action="{{ route('pagos.store') }}" method="post">
-  @csrf
-  <input type="hidden" name="inscripcion_id" value="">
-  <input type="hidden" name="inscripcion_redirect" value="true">
-  <div class="row align-items-end">
-    <div class="col-lg">
-      <div class="form-group">
-        <label>Nuevo Control</label>
-        <div class="input-group col-md-6">
-          <div class="input-group-prepend">
-            <span class="input-group-text" value="{{ $inscripcion->cliente->persona->id }}" >Peso</span>
-          </div>
-          <input type="number" class="form-control" value="">
-        </div>
-        
-      </div>
-    </div>
-    <div class="col-lg">
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-block">Agregar Control</button>
-      </div>
-    </div>
-  </div>
-</form>
+<br>
+<button type="submit" class="btn btn-primary btn-block col-sm-2">Agregar Control</button>
+<br>
 <table class="table">
   <thead>
     <tr>
       <th>Fecha</th>
-      <th>Estado Fisico</th>
+      <th>Estado Nutricional</th>
       <th>Peso</th>
+      <th>Altura</th>
+      <th>talla</th>
     </tr>
   </thead>
   <tbody>
@@ -45,6 +26,8 @@
         <td>13-09-2017</td>
         <td>Bueno</td>
         <td>80</td>
+        <td>1.80</td>
+        <td>65</td>
       </tr>
     @endforeach
   </tbody>
