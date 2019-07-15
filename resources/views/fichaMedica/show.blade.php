@@ -1,26 +1,27 @@
 @extends('layout')
 
-@section('title', 'Inscripcion - ')
+@section('title', 'Inscripcion - '.$inscripcion->cliente->persona->apellido_nombre)
 
 @section('content')
-<h1>asdas</h1>
+<h1>{{ $inscripcion->cliente->persona->apellido_nombre }}</h1>
 <hr>
-<hr>
+
 <h2>Ficha Medica</h2>
 <form action="{{ route('pagos.store') }}" method="post">
   @csrf
-  <input type="hidden" name="inscripcion_id" value="{{ $inscripcion->id }}">
+  <input type="hidden" name="inscripcion_id" value="">
   <input type="hidden" name="inscripcion_redirect" value="true">
   <div class="row align-items-end">
     <div class="col-lg">
       <div class="form-group">
         <label>Nuevo Control</label>
-        <div class="input-group">
+        <div class="input-group col-md-6">
           <div class="input-group-prepend">
-            <span class="input-group-text">$</span>
+            <span class="input-group-text" value="{{ $inscripcion->cliente->persona->id }}" >Peso</span>
           </div>
-          <input type="number" class="form-control" value="{{ $inscripcion->plan->precio }}" disabled>
+          <input type="number" class="form-control" value="">
         </div>
+        
       </div>
     </div>
     <div class="col-lg">
@@ -33,14 +34,19 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Plan</th>
-      <th>Monto</th>
       <th>Fecha</th>
-      <th>Empleado</th>
+      <th>Estado Fisico</th>
+      <th>Peso</th>
     </tr>
   </thead>
   <tbody>
-   
+  @foreach($inscripcion->cliente->pagos as $pago)
+      <tr>
+        <td>13-09-2017</td>
+        <td>Bueno</td>
+        <td>80</td>
+      </tr>
+    @endforeach
   </tbody>
 </table>
 <hr>

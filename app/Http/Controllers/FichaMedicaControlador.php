@@ -3,35 +3,39 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Inscripcion;
+use App\Plan;
+use App\Rutina;
+use App\Empleado;
 use App\Persona;
 use App\Cliente;
-use APP\FichaMedica;
+use App\Fichamedica;
 
-class FichaMedicaControlador extends Controller
+class FichamedicaControlador extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     *
+     * @return \Illuminate\Http\Response
      */
-  /*   public function index()
+    public function index()
     {
-        return view('fichamedica.show', ['fichamedica' => FichaMedica::all()]);
-    } */
+        return view('inscripciones.index', ['inscripciones' => Inscripcion::all()]);
+    }
 
     /**
      * Show the form for creating a new resource.
      *
-     * 
+     * @return \Illuminate\Http\Response
      */
-   /*  public function create()
+    public function create()
     {
         return view('inscripciones.create', [
             'planes' => Plan::all(),
             'rutinas' => Rutina::all(),
             'empleados' => Empleado::all()
         ]);
-    } */
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -65,7 +69,11 @@ class FichaMedicaControlador extends Controller
     public function show($id)
     {
         return view('fichamedica.show', [
-            'fichamedica' => FichaMedica::find($id)
+            'inscripcion' => Inscripcion::find($id),
+            'planes' => Plan::all(),
+            'rutinas' => Rutina::all(),
+            'empleados' => Empleado::all(),
+            'fichamedica' => Fichamedica::find($id)
         ]);
     }
 
@@ -87,7 +95,7 @@ class FichaMedicaControlador extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   /*  public function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $inscripcion = Inscripcion::find($id);
         $inscripcion->update([
@@ -101,16 +109,16 @@ class FichaMedicaControlador extends Controller
         ]);
         return redirect()->route('inscripciones.show', $id);
     }
- */
+
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    /* public function destroy($id)
+    public function destroy($id)
     {
         Inscripcion::find($id)->delete();
         return redirect()->route('inscripciones.index');
-    } */
+    }
 }

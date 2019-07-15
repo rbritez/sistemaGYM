@@ -3,5 +3,8 @@
 @section('title', 'Inicio')
 
 @section('content')
-  <h1>Hola</h1>
+ <center> <h1>Sistema de Gestion Gimnasio</h1> </center>
+
+ <img style=" width: 100%;
+  height: auto;" src="../resources/img/gim.jpg" >
 @endsection

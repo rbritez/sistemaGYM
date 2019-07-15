@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FichaMedica extends Model
+class Fichamedica extends Model
 {
     protected $table = 'ficha_medica';
     public $timestamps = false;
