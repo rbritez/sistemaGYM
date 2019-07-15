@@ -30,10 +30,8 @@ class FichamedicaControlador extends Controller
      */
     public function create()
     {
-        return view('inscripciones.create', [
-            'planes' => Plan::all(),
-            'rutinas' => Rutina::all(),
-            'empleados' => Empleado::all()
+        return view('fichamedica.create', [
+            
         ]);
     }
 

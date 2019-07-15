@@ -8,7 +8,7 @@
 
 <h2>Ficha Medica</h2>
 <br>
-<button type="submit" class="btn btn-primary btn-block col-sm-2">Agregar Control</button>
+<a  class="btn btn-primary btn-block col-sm-2" href="{{ route('fichamedica.create')}}">Agregar Revisión</a>
 <br>
 <table class="table">
   <thead>
