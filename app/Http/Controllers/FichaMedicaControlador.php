@@ -20,7 +20,7 @@ class FichamedicaControlador extends Controller
      */
     public function index()
     {
-        return view('inscripciones.index', ['inscripciones' => Inscripcion::all()]);
+         return view('fichaMedica.show', ['fichaMedica' => FichaMedica::all()]);
     }
 
     /**
@@ -31,7 +31,7 @@ class FichamedicaControlador extends Controller
     public function create()
     {
         return view('fichamedica.create', [
-            
+
         ]);
     }
 
@@ -68,10 +68,7 @@ class FichamedicaControlador extends Controller
     {
         return view('fichamedica.show', [
             'inscripcion' => Inscripcion::find($id),
-            'planes' => Plan::all(),
-            'rutinas' => Rutina::all(),
-            'empleados' => Empleado::all(),
-            'fichamedica' => Fichamedica::find($id)
+            'fichamedica' => Fichamedica::all()
         ]);
     }
 

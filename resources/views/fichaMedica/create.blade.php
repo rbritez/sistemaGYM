@@ -10,11 +10,11 @@
     @csrf
     <div class="form-group">
       <label>Fecha</label>
-    <input type="text" name="fecha_revision" class="form-control" placeholder="" value="{{ date("m-d-Y") }}" disabled required>
+    <input type="text" name="fecha_revision" class="form-control" placeholder="" value="{{ date("m-d-Y H:m:i") }}" disabled required>
     </div>
     <div class="form-group">
       <label>Peso</label>
-      <input type="text" name="dni" class="form-control" placeholder="" required>
+      <input type="number" name="dni" class="form-control" placeholder="" required>
     </div>
     <div class="form-group">
         <label>Talla</label>
@@ -29,5 +29,6 @@
     <hr>
     <button type="submit" class="btn btn-success btn-block">Guardar</button>
   </form>
+<hr>
 </div>
 @endsection

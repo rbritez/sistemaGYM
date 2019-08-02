@@ -21,11 +21,11 @@
     </tr>
   </thead>
   <tbody>
-  @foreach($inscripcion->cliente->pagos as $pago)
+  @foreach($fichamedica as $ficha)
       <tr>
-        <td>13-09-2017</td>
-        <td>Bueno</td>
-        <td>80</td>
+      <td>{{ $ficha->fecha}}</td>
+      <td>{{ $ficha->estado_nutricional_id }}</td>
+      <td>{{ $ficha->peso }}</td>
         <td>1.80</td>
         <td>65</td>
       </tr>
