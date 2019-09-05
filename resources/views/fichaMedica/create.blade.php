@@ -21,7 +21,7 @@
         <input type="text" name="dni" class="form-control" placeholder="" required>
       </div>
     <div class="form-group">
-      <label>Estado Nutricional</label>
+      <label>Indice m/corporal</label>
       <select name="turno_id" class="form-control">
           <option value=""></option>
       </select>

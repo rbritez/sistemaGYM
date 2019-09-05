@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Inscripcion - '.$inscripcion->cliente->persona->apellido_nombre)
+@section('title', 'Productos - '.$inscripcion->cliente->persona->apellido_nombre)
 
 @section('content')
 <h1>{{ $inscripcion->cliente->persona->apellido_nombre }}</h1>
