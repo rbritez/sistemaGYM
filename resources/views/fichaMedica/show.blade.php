@@ -5,8 +5,12 @@
 @section('content')
 <h1>{{ $inscripcion->cliente->persona->apellido_nombre }}</h1>
 <hr>
-
-<h2>Ficha Medica</h2>
+<div>
+    <div style=" width: 100%;">
+        <img style=" width: 60%; margin-left:500px ;
+        " src="../../resources/img/masacorp.jpg" >
+    </div>
+    <h2>Ficha Medica</h2>
 <br>
 <a  class="btn btn-primary btn-block col-sm-2" href="{{ route('fichamedica.create')}}">Agregar Revisión</a>
 <br>
