@@ -15,7 +15,7 @@ class ProveedoresControlador extends Controller
      */
     public function index()
     {
-         return view('proveedores.show', ['productos' => Proveedores::all()]);
+         return view('proveedores.show', ['proveedores' => Proveedores::all()]);
     }
 
     /**
@@ -25,7 +25,7 @@ class ProveedoresControlador extends Controller
      */
     public function create()
     {
-        return view('productos.create', [
+        return view('proveedores.create', [
 
         ]);
     }

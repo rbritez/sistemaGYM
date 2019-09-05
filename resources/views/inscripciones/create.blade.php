@@ -18,9 +18,17 @@
         <input type="text" name="dni" class="form-control" placeholder="45678123" required>
       </div>
       <div class="form-group">
-        <label>Domicilio</label>
-        <textarea name="domicilio" class="form-control" required></textarea>
+        <label>Calle</label>
+        <input name="calle" class="form-control" required>
       </div>
+      <div class="form-group">
+            <label>Numero</label>
+            <input name="numero" class="form-control" required>
+     </div>
+    <div class="form-group">
+        <label>Localidad</label>
+        <input name="localidad" class="form-control" required>
+        </div>
     </div>
     <div class="col-sm-4">
       <div class="form-group">

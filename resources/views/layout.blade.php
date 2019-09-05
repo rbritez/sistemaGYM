@@ -25,9 +25,8 @@
         <a class="nav-item nav-link" href="{{ route('maquinas.index') }}">Maquinas</a>
         <a class="nav-item nav-link" href="{{ route('empleados.index') }}">Empleados</a>
         <a class="nav-item nav-link" href="{{ route('productos.index') }}">Productos</a>
-        <a class="nav-item nav-link" href="{{ route('empleados.index') }}">Venta</a>
+        <a class="nav-item nav-link" href="{{ route('proveedores.index') }}">Proveedores</a>
         <a class="nav-item nav-link" href="{{ route('empleados.index') }}">Compras</a>
-        <a class="nav-item nav-link" href="{{ route('empleados.index') }}">Proveedores</a>
 
       </div>
     </div>
