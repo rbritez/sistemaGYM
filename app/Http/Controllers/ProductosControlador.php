@@ -3,13 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Inscripcion;
-use App\Plan;
-use App\Rutina;
-use App\Empleado;
-use App\Persona;
-use App\Cliente;
-use App\Fichamedica;
+
+use App\Productos;
 
 class ProductosControlador extends Controller
 {

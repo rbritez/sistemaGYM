@@ -25,6 +25,8 @@ Route::resources([
     'pagos' => 'PagoControlador',
     'ingresos' => 'IngresoControlador',
     'fichamedica' => 'FichamedicaControlador',
+    'productos' => 'ProductosControlador',
+    'proveedores' => 'ProveedoresControlador',
 ]);
 
 Route::prefix('rutina_maquinas')->name('rutina_maquinas.')->group(function () {

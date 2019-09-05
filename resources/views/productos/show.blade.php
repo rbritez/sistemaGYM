@@ -1,34 +1,61 @@
 @extends('layout')
 
-@section('title', 'Productos - '.$inscripcion->cliente->persona->apellido_nombre)
-
+ @section('title', 'Productos - ')
 @section('content')
-<h1>{{ $inscripcion->cliente->persona->apellido_nombre }}</h1>
+<h1>Productos</h1>
 <hr>
-
-<h2>Ficha Medica</h2>
 <br>
-<a  class="btn btn-primary btn-block col-sm-2" href="{{ route('fichamedica.create')}}">Agregar Revisión</a>
+<a  class="btn btn-primary btn-block col-sm-2" href="{{ route('productos.create')}}">Agregar Productos</a>
 <br>
 <table class="table">
   <thead>
     <tr>
-      <th>Fecha</th>
-      <th>Indice m/Corporal</th>
-      <th>Peso</th>
-      <th>Altura</th>
-      <th>talla</th>
+      <th>#</th>
+      <th>Descripcion</th>
+      <th>Precio</th>
+      <th>Proveedor</th>
+      <th>Categoria</th>
+      <th>Acciones</th>
     </tr>
   </thead>
   <tbody>
-  @foreach($fichamedica as $ficha)
-      <tr>
+    <tr>
+    <td>1</td>
+    <td>Remera Deportiva</td>
+    <td>$450</td>
+    <td>North sports</td>
+    <td>Prendas</td>
+    <td>  <button type="submit" class="btn btn-danger" form="">Eliminar</button></td>
+
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td>Calza Deportiva</td>
+        <td>$650</td>
+        <td>North sports</td>
+        <td>Prendas</td>
+    <td>  <button type="submit" class="btn btn-danger" form="">Eliminar</button></td>
+
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td>Vitamina</td>
+        <td>$950</td>
+        <td>suplementos del norte</td>
+        <td>Suplementos</td>
+        <td>  <button type="submit" class="btn btn-danger" form="">Eliminar</button></td>
+
+    </tr>
+  @foreach($productos as $producto)
+     {{--  <tr>
       <td>{{ $ficha->fecha}}</td>
       <td>{{ $ficha->estado_nutricional_id }}</td>
       <td>{{ $ficha->peso }}</td>
         <td>1.80</td>
         <td>65</td>
-      </tr>
+      </tr> --}}
     @endforeach
   </tbody>
 </table>
