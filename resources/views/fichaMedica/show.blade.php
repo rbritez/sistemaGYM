@@ -12,6 +12,7 @@
     </div>
     <h2>Ficha Medica</h2>
 <br>
+
 <a  class="btn btn-primary btn-block col-sm-2" href="{{ route('fichamedica.create')}}">Agregar Revisión</a>
 <br>
 <table class="table">
@@ -38,3 +39,8 @@
 </table>
 <hr>
 @endsection
+<script src="../../js/charts/" type="text/javascript">
+    $(document).ready(function(){
+        $('select').material_select();
+    });
+</script>
