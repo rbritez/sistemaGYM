@@ -71,7 +71,7 @@ class ProveedoresControlador extends Controller
      */
     public function destroy($id)
     {
-        Inscripcion::find($id)->delete();
-        return redirect()->route('inscripciones.index');
+        Proveedores::find($id)->delete();
+        return redirect()->route('proveedores.index');
     }
 }
