@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Inscripcion;
+use App\Plan;
+use App\Rutina;
+use App\Empleado;
+use App\Persona;
+use App\Cliente;
+use App\Fichamedica;
 
-use App\Productos;
-use App\Proveedores;
-use App\Categorias;
-
-class ProductosControlador extends Controller
+class FichamedicaControlador extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +20,7 @@ class ProductosControlador extends Controller
      */
     public function index()
     {
-         return view('productos.show', ['productos' => Productos::all()]);
+         return view('fichaMedica.show', ['fichaMedica' => FichaMedica::all()]);
     }
 
     /**
@@ -27,10 +30,7 @@ class ProductosControlador extends Controller
      */
     public function create()
     {
-
-        return view('productos.create', [
-            'proveedores' => Proveedores::all(),
-            'categorias' => Categorias::all()
+        return view('fichamedica.create', [
 
         ]);
     }
@@ -43,13 +43,19 @@ class ProductosControlador extends Controller
      */
     public function store(Request $request)
     {
-        $producto = Productos::create([
-            'descripcion' => $request->input('descripcion'),
-            'precio' => $request->input('precio'),
-            'id_proveedor' => $request->input('id_proveedor'),
-            'id_categoria' => $request->input('id_categoria'),
+        $persona = Persona::create([
+            'apellido_nombre' => $request->input('apellido_nombre'),
+            'dni' => $request->input('dni'),
+            'domicilio' => $request->input('domicilio')
         ]);
-        return redirect()->route('productos.index');
+        $cliente = Cliente::create(['persona_id' => $persona->id]);
+        $inscripcion = Inscripcion::create([
+            'cliente_id' => $cliente->id,
+            'plan_id' => $request->input('plan_id'),
+            'rutina_id' => $request->input('rutina_id'),
+            'empleado_id' => $request->input('empleado_id'),
+        ]);
+        return redirect()->route('inscripciones.show', $inscripcion->id);
     }
 
     /**
@@ -60,8 +66,9 @@ class ProductosControlador extends Controller
      */
     public function show($id)
     {
-        return view('productos.show', [
-            'productos' => Productos::all()
+        return view('fichamedica.show', [
+            'inscripcion' => Inscripcion::find($id),
+            'fichamedica' => Fichamedica::all()
         ]);
     }
 
@@ -106,7 +113,7 @@ class ProductosControlador extends Controller
      */
     public function destroy($id)
     {
-        Productos::find($id)->delete();
-        return redirect()->route('productos.index');
+        Inscripcion::find($id)->delete();
+        return redirect()->route('inscripciones.index');
     }
 }

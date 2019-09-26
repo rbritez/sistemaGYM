@@ -23,10 +23,15 @@
       <td>{{ $producto->id}}</td>
       <td>{{ $producto->descripcion}}</td>
       <td>{{ $producto->precio }}</td>
-      <td>{{ $producto->id_proveedor }}</td>
-      <td>{{ $producto->id_categoria }}</td>
-      <td>  <button type="submit" class="btn btn-danger" form="">Eliminar</button></td>
+      <td>{{ $producto->proveedor->nombre }}</td>
+      <td>{{ $producto->categoria->nombre }}</td>
+     <td> <button type="submit" class="btn btn-danger" form="delete-form-{{ $producto->id }}">Eliminar</button>
+      </td>
       </tr>
+      <form action="{{ route('productos.destroy', $producto->id) }}" method="POST" id="delete-form-{{ $producto->id }}">
+            @csrf
+            @method('DELETE')
+          </form>
     @endforeach
   </tbody>
 </table>
