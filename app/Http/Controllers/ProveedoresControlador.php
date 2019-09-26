@@ -38,19 +38,10 @@ class ProveedoresControlador extends Controller
      */
     public function store(Request $request)
     {
-        $persona = Persona::create([
-            'apellido_nombre' => $request->input('apellido_nombre'),
-            'dni' => $request->input('dni'),
-            'domicilio' => $request->input('domicilio')
+        $proveedores = Proveedores::create([
+            'nombre' => $request->input('nombre'),
         ]);
-        $cliente = Cliente::create(['persona_id' => $persona->id]);
-        $inscripcion = Inscripcion::create([
-            'cliente_id' => $cliente->id,
-            'plan_id' => $request->input('plan_id'),
-            'rutina_id' => $request->input('rutina_id'),
-            'empleado_id' => $request->input('empleado_id'),
-        ]);
-        return redirect()->route('inscripciones.show', $inscripcion->id);
+        return redirect()->route('proveedores.show', $proveedores->id);
     }
 
     /**

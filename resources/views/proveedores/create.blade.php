@@ -10,7 +10,7 @@
     @csrf
     <div class="form-group">
       <label>Nombre</label>
-    <input type="text" name="fecha_revision" class="form-control" placeholder="" value="" required>
+    <input type="text" name="nombre" class="form-control" placeholder="nombre de proveedor" value="" required>
     </div>
     <hr>
     <button type="submit" class="btn btn-success btn-block">Guardar</button>

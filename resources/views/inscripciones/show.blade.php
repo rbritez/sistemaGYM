@@ -33,7 +33,7 @@
         >
       </div>
       <div class="form-group">
-        <label>Domicilio</label>
+        <label>Calle</label>
         <textarea
           name="domicilio"
           class="form-control"
@@ -41,6 +41,26 @@
           required
         >{{ $inscripcion->cliente->persona->domicilio }}</textarea>
       </div>
+      <div class="form-group">
+        <label>Numero</label>
+        <textarea
+          name="domicilio"
+          class="form-control"
+          placeholder="{{ $inscripcion->cliente->persona->domicilio }}"
+          required
+        >{{ $inscripcion->cliente->persona->domicilio }}</textarea>
+      </div>
+      <div class="form-group">
+        <label>Localidad</label>
+        <input
+          name="domicilio"
+          class="form-control"
+          placeholder="{{ $inscripcion->cliente->persona->domicilio }}"
+          required
+          value="{{ $inscripcion->cliente->persona->domicilio }}"
+        >
+      </div>
+
     </div>
     <div class="col-lg-4">
       <div class="form-group">
@@ -68,6 +88,18 @@
         </select>
       </div>
       <div class="form-group">
+        <label>Rutina</label>
+        <select name="rutina_id" class="form-control">
+          @foreach($rutinas as $rutina)
+            @if($rutina->id === $inscripcion->rutina_id)
+              <option value="{{ $rutina->id }}" selected>{{ $rutina->descripcion }}</option>
+            @else
+              <option value="{{ $rutina->id }}">{{ $rutina->descripcion }}</option>
+            @endif
+          @endforeach
+        </select>
+      </div>
+      <div class="form-group">
         <label>Inscripto por</label>
         <input type="text" class="form-control" disabled value="{{ $inscripcion->empleado->persona->apellido_nombre }}">
       </div>
@@ -78,6 +110,18 @@
     <div class="col-lg-4">
       <input type="submit" class="btn btn-success btn-block" form="actualizar" value="Actualizar"/>
     </div>
+    <div class="col-lg-4">
+        <div class="form-group">
+          <label>Medico</label>
+          <input
+            type="text"
+            name="apellido_nombre"
+            class="form-control"
+            placeholder="{{ $inscripcion->cliente->persona->apellido_nombre }}"
+            value="{{ $inscripcion->cliente->persona->apellido_nombre }}"
+            required
+          >
+        </div>
   </div>
 </form>
 <hr>
