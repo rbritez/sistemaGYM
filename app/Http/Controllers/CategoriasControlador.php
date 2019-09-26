@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Proveedores;
+use App\Categorias;
 
-class ProveedoresControlador extends Controller
+class CategoriasControlador extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class ProveedoresControlador extends Controller
      */
     public function index()
     {
-         return view('proveedores.show', ['proveedores' => Proveedores::all()]);
+         return view('categorias.index', ['categorias' => Categorias::all()]);
     }
 
     /**

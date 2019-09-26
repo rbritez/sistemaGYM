@@ -10,22 +10,26 @@
     @csrf
     <div class="form-group">
       <label>Descripcion</label>
-    <input type="text" name="fecha_revision" class="form-control" placeholder="" value="" required>
+    <input type="text" name="descripcion" class="form-control" placeholder="" value="" required>
     </div>
     <div class="form-group">
       <label>Precio</label>
-      <input type="number" name="dni" class="form-control" placeholder="" required>
+      <input type="number" name="precio" class="form-control" placeholder="" required>
     </div>
     <div class="form-group">
             <label>Proveedor</label>
-            <select name="turno_id" class="form-control">
-                <option value=""></option>
+            <select name="id_proveedor" class="form-control">
+            @foreach($proveedores as $proveedor)
+            <option value="{{ $proveedor->id }}">{{ $proveedor->nombre }}</option>
+          @endforeach
             </select>
           </div>
     <div class="form-group">
       <label>Categoria</label>
-      <select name="turno_id" class="form-control">
-          <option value=""></option>
+      <select name="id_categoria" class="form-control">
+      @foreach($categorias as $categoria)
+            <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+          @endforeach
       </select>
     </div>
     <hr>

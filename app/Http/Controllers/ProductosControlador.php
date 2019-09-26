@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Productos;
+use App\Proveedores;
+use App\Categorias;
 
 class ProductosControlador extends Controller
 {
@@ -25,7 +27,10 @@ class ProductosControlador extends Controller
      */
     public function create()
     {
+
         return view('productos.create', [
+            'proveedores' => Proveedores::all(),
+            'categorias' => Categorias::all()
 
         ]);
     }
@@ -38,19 +43,13 @@ class ProductosControlador extends Controller
      */
     public function store(Request $request)
     {
-        $persona = Persona::create([
-            'apellido_nombre' => $request->input('apellido_nombre'),
-            'dni' => $request->input('dni'),
-            'domicilio' => $request->input('domicilio')
+        $producto = Productos::create([
+            'descripcion' => $request->input('descripcion'),
+            'precio' => $request->input('precio'),
+            'proveedor_id' => $request->input('proveedor_id'),
+            'categoria_id' => $request->input('categoria_id'),
         ]);
-        $cliente = Cliente::create(['persona_id' => $persona->id]);
-        $inscripcion = Inscripcion::create([
-            'cliente_id' => $cliente->id,
-            'plan_id' => $request->input('plan_id'),
-            'rutina_id' => $request->input('rutina_id'),
-            'empleado_id' => $request->input('empleado_id'),
-        ]);
-        return redirect()->route('inscripciones.show', $inscripcion->id);
+        return redirect()->route('productos.index');
     }
 
     /**

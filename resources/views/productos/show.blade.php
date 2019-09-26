@@ -18,44 +18,15 @@
       <th>Acciones</th>
     </tr>
   </thead>
-  <tbody>
-    <tr>
-    <td>1</td>
-    <td>Remera Deportiva</td>
-    <td>$450</td>
-    <td>North sports</td>
-    <td>Prendas</td>
-    <td>  <button type="submit" class="btn btn-danger" form="">Eliminar</button></td>
-
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td>Calza Deportiva</td>
-        <td>$650</td>
-        <td>North sports</td>
-        <td>Prendas</td>
-    <td>  <button type="submit" class="btn btn-danger" form="">Eliminar</button></td>
-
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td>Vitamina</td>
-        <td>$950</td>
-        <td>suplementos del norte</td>
-        <td>Suplementos</td>
-        <td>  <button type="submit" class="btn btn-danger" form="">Eliminar</button></td>
-
-    </tr>
   @foreach($productos as $producto)
-     {{--  <tr>
-      <td>{{ $ficha->fecha}}</td>
-      <td>{{ $ficha->estado_nutricional_id }}</td>
-      <td>{{ $ficha->peso }}</td>
-        <td>1.80</td>
-        <td>65</td>
-      </tr> --}}
+      <tr>
+      <td>{{ $producto->id}}</td>
+      <td>{{ $producto->descripcion}}</td>
+      <td>{{ $producto->precio }}</td>
+      <td>{{ $producto->id_proveedor }}</td>
+      <td>{{ $producto->id_categoria }}</td>
+      <td>  <button type="submit" class="btn btn-danger" form="">Eliminar</button></td>
+      </tr>
     @endforeach
   </tbody>
 </table>

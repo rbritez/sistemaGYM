@@ -27,6 +27,7 @@ Route::resources([
     'fichamedica' => 'FichamedicaControlador',
     'productos' => 'ProductosControlador',
     'proveedores' => 'ProveedoresControlador',
+    'categorias' => 'CategoriasControlador',
 ]);
 
 Route::prefix('rutina_maquinas')->name('rutina_maquinas.')->group(function () {
