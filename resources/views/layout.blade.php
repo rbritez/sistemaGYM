@@ -26,7 +26,7 @@
         <a class="nav-item nav-link" href="{{ route('empleados.index') }}">Empleados</a>
         <a class="nav-item nav-link" href="{{ route('productos.index') }}">Productos</a>
         <a class="nav-item nav-link" href="{{ route('proveedores.index') }}">Proveedores</a>
-        <a class="nav-item nav-link" href="{{ route('empleados.index') }}">Compras</a>
+        <a class="nav-item nav-link" href="{{ route('compras.index') }}">Compras</a>
 
       </div>
     </div>

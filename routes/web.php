@@ -28,6 +28,7 @@ Route::resources([
     'productos' => 'ProductosControlador',
     'proveedores' => 'ProveedoresControlador',
     'categorias' => 'CategoriasControlador',
+    'compras' => 'ComprasControlador',
 ]);
 
 Route::prefix('rutina_maquinas')->name('rutina_maquinas.')->group(function () {
