@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Fichamedica extends Model
 {
     protected $table = 'ficha_medica';
-    public $timestamps = true;
-    protected $fillable = ['cliente_id', 'descripcion','peso','descripcion','fecha'];
+    public $timestamps = false;
+    protected $fillable = ['cliente_id','estado_nutricional_id','peso','talla','altura','fecha'];
 
     public function cliente() {
-        return $this->belongsTo('App\Cliente', 'cliente_id');
+        return $this->belongsTo('App\Cliente');
     }
     public function estadoNutricional(){
-        return $this->belongsTo('App\Estadonutricional' , 'descripcion');
+        return $this->belongsTo('App\Estadonutricional');
     }
 }

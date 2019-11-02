@@ -10,6 +10,7 @@ use App\Empleado;
 use App\Persona;
 use App\Cliente;
 use App\Fichamedica;
+use App\Estadonutricional;
 
 class FichamedicaControlador extends Controller
 {
@@ -20,7 +21,7 @@ class FichamedicaControlador extends Controller
      */
     public function index()
     {
-         return view('fichaMedica.show', ['fichaMedica' => FichaMedica::all()]);
+        //  return view('fichaMedica.show', ['fichaMedica' => FichaMedica::all()]);
     }
 
     /**
@@ -30,7 +31,9 @@ class FichamedicaControlador extends Controller
      */
     public function create()
     {
+  
         return view('fichamedica.create', [
+            'estadoNutricional' => EstadoNutricional::all(),
 
         ]);
     }
@@ -42,20 +45,18 @@ class FichamedicaControlador extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $persona = Persona::create([
-            'apellido_nombre' => $request->input('apellido_nombre'),
-            'dni' => $request->input('dni'),
-            'domicilio' => $request->input('domicilio')
+    {   
+        // dd($request->all());
+        $fichamedica = FichaMedica::create([
+            'cliente_id'=> $request->input('cliente_id'),
+            'fecha' => $request->input('fecha_revision'),
+            'peso' => $request->input('peso'),
+            'talla' => $request->input('talla'),
+            'altura' => $request->input('altura'),
+            'estado_nutricional_id' => $request->input('estado_nutricional_id'),
         ]);
-        $cliente = Cliente::create(['persona_id' => $persona->id]);
-        $inscripcion = Inscripcion::create([
-            'cliente_id' => $cliente->id,
-            'plan_id' => $request->input('plan_id'),
-            'rutina_id' => $request->input('rutina_id'),
-            'empleado_id' => $request->input('empleado_id'),
-        ]);
-        return redirect()->route('inscripciones.show', $inscripcion->id);
+        $inscripcion = Inscripcion::find($request->id_inscripcion);
+        return redirect()->route('fichamedica.show',$inscripcion->id);
     }
 
     /**
@@ -66,9 +67,16 @@ class FichamedicaControlador extends Controller
      */
     public function show($id)
     {
+        // $postulantes= coursexpostulante::join('courses','courses.id','=','coursexpostulante.course_id')
+        // ->join( 'postulante','postulante.id','=','coursexpostulante.postulante_id')
+        // ->join('persons','persons.id','=','postulante.person_id')
+        // ->select('persons.number_tel','persons.date_birth','postulante.id','persons.name','persons.last_name','persons.dni','postulante.tipo_licencia')->where('coursexpostulante.course_id','=',"$id")->orderBy('persons.last_name','ASC')->get();
+        $inscripcion = Inscripcion::find($id);
+        // dd($inscripcion->cliente_id);
         return view('fichamedica.show', [
             'inscripcion' => Inscripcion::find($id),
-            'fichamedica' => Fichamedica::all()
+            'fichamedica' => Fichamedica::where('cliente_id','=', "$inscripcion->cliente_id")->get(),
+            'estadoNutricional' => EstadoNutricional::all()
         ]);
     }
 

@@ -17,7 +17,7 @@ class MaquinaControlador extends Controller
     {
         return view('maquinas.index', [
             'maquinas' => Maquina::all(),
-            'estados' => [['disponible', 'Disponible'], ['deposito', 'En el deposito'], ['reparacion', 'Reparación']]
+            'estados' => [['disponible', 'Disponible'], ['deposito', 'En el deposito'], ['reparacion', 'Reparación'],['no disponible','No Disponible']]
         ]);
     }
 

@@ -49,7 +49,7 @@
               </div>
             </td>
             <td>
-              <a href="{{ route('planes.show', $plan->id) }}" class="btn btn-primary">Ver</a>
+              {{-- <a href="{{ route('planes.show', $plan->id) }}" class="btn btn-primary">Ver</a> --}}
               <button type="submit" class="btn btn-success">Editar</button>
               <button type="submit" class="btn btn-danger" form="delete-form-{{ $plan->id }}">Eliminar</button>
             </td>

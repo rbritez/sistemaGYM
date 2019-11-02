@@ -10,20 +10,22 @@
     @csrf
     <div class="form-group">
       <label>Fecha</label>
-    <input type="text" name="fecha_revision" class="form-control" placeholder="" value="{{ date("m-d-Y H:m:i") }}" disabled required>
+    <input type="datetime" name="fecha_revision" class="form-control" placeholder=""  required>
     </div>
     <div class="form-group">
       <label>Peso</label>
-      <input type="number" name="dni" class="form-control" placeholder="" required>
+      <input type="number" name="peso" class="form-control" placeholder="" required>
     </div>
     <div class="form-group">
         <label>Talla</label>
-        <input type="text" name="dni" class="form-control" placeholder="" required>
+        <input type="text" name="talla" class="form-control" placeholder="" required>
       </div>
     <div class="form-group">
       <label>Indice m/corporal</label>
-      <select name="turno_id" class="form-control">
-          <option value=""></option>
+      <select name="estado_nutricional_id" class="form-control">
+        @foreach($estadoNutricional as $estado)
+            <option value={{ $estado->id }}>{{ $estado->descripcion }}</option>
+        @endforeach      
       </select>
     </div>
     <hr>

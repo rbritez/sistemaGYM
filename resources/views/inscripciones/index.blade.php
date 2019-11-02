@@ -22,7 +22,7 @@
   <tbody>
     @foreach($inscripciones as $ins)
       <tr>
-        <td>{{ $ins->cliente->persona->apellido_nombre }}</td>
+      <td>{{ $ins->cliente->persona->apellido_nombre }} {{$ins->id}}</td>
         <td>{{ $ins->plan->descripcion }} - ${{ $ins->plan->precio }}</td>
         <td>{{ $ins->rutina->descripcion }}</td>
         <td><a  class="btn btn-success" href="{{ route('fichamedica.show', $ins->id) }}">Ver Ficha </font></a></td>

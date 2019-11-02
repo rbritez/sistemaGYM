@@ -53,7 +53,7 @@
             <td>
               <a href="{{ route('maquinas.show', $maquina->id) }}" class="btn btn-primary">Ver rutinas</a>
               <button type="submit" class="btn btn-success">Editar</button>
-              <button type="submit" class="btn btn-danger" form="delete-form-{{ $maquina->id }}">Eliminar</button>
+              {{-- <button type="submit" class="btn btn-danger" form="delete-form-{{ $maquina->id }}">Eliminar</button> --}}
             </td>
           </form>
           <form action="{{ route('maquinas.destroy', $maquina->id) }}" method="POST" id="delete-form-{{ $maquina->id }}">
