@@ -8,6 +8,7 @@
     <thead>
       <tr>
         <th>Descripción</th>
+        <th>Duración de Meses</th>
         <th>Precio</th>
         <th>Acciones</th>
       </tr>
@@ -18,6 +19,9 @@
           @csrf
           <td>
             <input type="text" class="form-control" placeholder="Plan" name="descripcion" required>
+          </td>
+          <td>
+            <input type="number" class="form-control" name="duracion" value="1" placeholder="Cantidad de Meses Ej: 1,6,12">
           </td>
           <td>
               <div class="input-group">
@@ -39,6 +43,9 @@
             @method('PUT')
             <td>
               <input type="text" class="form-control" placeholder="plan" name="descripcion" value="{{ $plan->descripcion }}">
+            </td>
+            <td>
+              <input type="number" class="form-control" name="duracion" value="1" placeholder="Cantidad de Meses Ej: 1,6,12">
             </td>
             <td>
               <div class="input-group">
