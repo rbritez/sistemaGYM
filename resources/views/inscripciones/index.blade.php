@@ -7,6 +7,7 @@
 <hr>
 <div>
   <a href="{{ route('inscripciones.create') }}" class="btn btn-primary">Nueva inscripción</a>
+<a href="{{route('clientes.index')}}" class="btn btn-primary">Ver Clientes</a>
 </div>
 <br>
 <table id="tablalistado" class="table table-bordered table-hover nowrap">
@@ -22,7 +23,7 @@
   <tbody>
     @foreach($inscripciones as $ins)
       <tr>
-      <td>{{ $ins->cliente->persona->apellido_nombre }}</td>
+      <td>{{ $ins->cliente->persona->apellido }} {{$ins->cliente->persona->nombre}}</td>
         <td>{{ $ins->plan->descripcion }} - ${{ $ins->plan->precio }}</td>
         <td>{{ $ins->rutina->descripcion }}</td>
         <td><a  class="btn btn-success" href="{{ route('fichamedica.show', $ins->id) }}">Ver Ficha </font></a></td>

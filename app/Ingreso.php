@@ -8,7 +8,7 @@ class Ingreso extends Model
 {
     protected $table = 'ingresos';
     public $timestamps = false;
-    protected $fillable = ['empleado_id', 'turno_id'];
+    protected $fillable = ['empleado_id', 'turno_id','fecha','hora'];
 
     public function empleado() {
         return $this->belongsTo('App\Empleado', 'empleado_id');
@@ -18,3 +18,4 @@ class Ingreso extends Model
         return $this->belongsTo('App\Turno', 'turno_id');
     }
 }
+

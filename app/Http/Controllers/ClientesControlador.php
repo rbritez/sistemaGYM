@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Empleado;
-use App\Turno;
 use App\Persona;
-
-class EmpleadoControlador extends Controller
+use App\Cliente;
+use App\Plan;
+use App\Plan_Cliente;
+class ClientesControlador extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,9 @@ class EmpleadoControlador extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('empleados.index', ['empleados' => Empleado::all(),'turnos'=>Turno::select('*')->where('estado','=',1)->get()]);
+    {  
+        $clientes = Cliente::all();
+        return view('clientes.index', ['clientes'=> $clientes,'planes'=>Plan::all()]);
     }
 
     /**
@@ -39,16 +40,25 @@ class EmpleadoControlador extends Controller
      */
     public function store(Request $request)
     {
+        $fechaActual = date("Y-m-d");
         $persona = Persona::create([
             'nombre' => $request->input('nombre'),
             'apellido' => $request->input('apellido'),
-            'dni' => $request->input('dni'),
-            'domicilio' => $request->input('domicilio')
         ]);
-        $empleado = Empleado::create([
+        $cliente = Cliente::create([
             'persona_id' => $persona->id,
+            'fecha_ingreso'=>$fechaActual,
         ]);
-        return redirect()->route('empleados.index');
+        // CALCULAR FECHA DE VENCIMIENTO
+        $plan = Plan::find($request->plan_id);
+        $fechaVencimiento = date('Y-m-d',strtotime($fechaActual."+ $plan->cant_meses month" ));
+        Plan_Cliente::create([
+            'cliente_id'=>$cliente->id,
+            'plan_id'=>$request->plan_id,
+            'fecha_inicio'=>$fechaActual,
+            'fecha_fin'=>$fechaVencimiento,
+        ]);
+        return redirect()->route('clientes.index');
     }
 
     /**
@@ -64,7 +74,16 @@ class EmpleadoControlador extends Controller
             'turnos' => Turno::all(),
         ]);
     }
-
+    
+    public function ultimoPlan(Request $request)
+    {
+        $ultimoPlan = Plan_Cliente::join('planes','planes.id','=','planes_cliente.plan_id')->select('planes_cliente.plan_id','planes.precio')->where('cliente_id','=',$request->id_cliente)->orderBy('fecha_fin','DESC')->limit('1')->get();
+        return $ultimoPlan;
+    }
+    public function precio(Request $request){
+        $precio = Plan::find($request->id_plan);
+        return $precio;
+    }
     /**
      * Show the form for editing the specified resource.
      *

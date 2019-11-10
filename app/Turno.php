@@ -8,5 +8,5 @@ class Turno extends Model
 {
     protected $table = 'turnos';
     public $timestamps = false;
-    protected $fillable = ['descripcion'];
+    protected $fillable = ['descripcion','estado'];
 }

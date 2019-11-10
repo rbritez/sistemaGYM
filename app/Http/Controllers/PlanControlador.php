@@ -37,6 +37,7 @@ class PlanControlador extends Controller
     {
         Plan::create([
             'descripcion' => $request->input('descripcion'),
+            'cant_meses' => $request->input('cant_meses'),
             'precio' => $request->input('precio'),
         ]);
         return redirect()->route('planes.index');
@@ -75,7 +76,9 @@ class PlanControlador extends Controller
     {
         Plan::find($id)->update([
             'descripcion' => $request->input('descripcion'),
+            'cant_meses' => $request->input('cant_meses'),
             'precio' => $request->input('precio'),
+            'estado'=> $request->input('estado'),
         ]);
         return redirect()->route('planes.index');
     }
@@ -88,7 +91,7 @@ class PlanControlador extends Controller
      */
     public function destroy($id)
     {
-        Plan::find($id)->delete();
-        return redirect()->route('planes.index');
+        // Plan::find($id)->delete();
+        // return redirect()->route('planes.index');
     }
 }

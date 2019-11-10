@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" lang="es">
   <meta name="viewport" lang="es" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{csrf_token()}}">
   <meta http-equiv="X-UA-Compatible" lang="es" content="ie=edge">
   {{-- bootstraop 4.0.0 --}}
   <link rel="stylesheet" href={{asset("bootstrap/css/bootstrap.min.css")}}>

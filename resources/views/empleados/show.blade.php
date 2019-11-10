@@ -3,7 +3,7 @@
 @section('title', 'Empleado - '.$empleado->persona->apellido_nombre )
 
 @section('content')
-<h1>{{ $empleado->persona->apellido_nombre }}</h1>
+{{-- <h1>{{ $empleado->persona->apellido_nombre }}</h1>
 <hr>
 <div class="row">
   <div class="col-lg-4">
@@ -39,14 +39,14 @@
       <div class="form-group">
         <label>Turno</label>
         <select name="turno_id" class="form-control">
-          @foreach($turnos as $turno)
+          {{-- @foreach($turnos as $turno)
             @if($turno->id === $empleado->turno->id)
               <option value="{{ $turno->id }}" selected>{{ $turno->descripcion }}</option>
             @else
               <option value="{{ $turno->id }}">{{ $turno->descripcion }}</option>
             @endif
-          @endforeach
-        </select>
+          @endforeach --}}
+        {{-- </select>
       </div>
       <hr>
       <button type="submit" class="btn btn-success btn-block">Guardar</button>
@@ -55,7 +55,7 @@
   <div class="col-lg">
     <h2>Ingresos</h2>
     <hr>
-    <form action="{{ route('ingresos.store') }}" method="post">
+    <form action="{{ route('ingresos.store') }}" method="POST">
       @csrf
       <input type="hidden" name="empleado_id" value="{{ $empleado->id }}">
       <div class="form-group">
@@ -73,11 +73,11 @@
         @foreach($empleado->ingresos as $ingreso)
           <tr>
             <td>{{ $ingreso->fecha }}</td>
-            <td>{{ $ingreso->turno->descripcion }}</td>
-          </tr>
+            {{-- <td>{{ $ingreso->turno->descripcion }}</td> --}}
+          {{-- </tr>
         @endforeach
       </tbody>
     </table>
   </div>
-</div>
+</div> --}} --}} --}}
 @endsection

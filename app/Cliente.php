@@ -8,7 +8,7 @@ class Cliente extends Model
 {
     protected $table = 'clientes';
     public $timestamps = false;
-    protected $fillable = ['persona_id'];
+    protected $fillable = ['persona_id','fecha_ingreso','estado'];
 
     public function persona() {
         return $this->belongsTo('App\Persona', 'persona_id');
@@ -20,5 +20,8 @@ class Cliente extends Model
 
     public function pagos() {
         return $this->hasMany('App\Pago', 'cliente_id');
+    }
+    public function plan_cliente() {
+        return $this->hasMany('App\Plan_Cliente', 'cliente_id');
     }
 }

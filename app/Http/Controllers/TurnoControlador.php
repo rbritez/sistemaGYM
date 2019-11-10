@@ -87,7 +87,16 @@ class TurnoControlador extends Controller
      */
     public function destroy($id)
     {
-        Turno::find($id)->delete();
+        $turno = Turno::find($id);
+        if($turno->estado =='1'){
+            Turno::find($id)->update([
+                'estado' => 0
+            ]);
+        }else{
+            Turno::find($id)->update([
+                'estado' => 1
+            ]);
+        }
         return redirect()->route('turnos.index');
     }
 }

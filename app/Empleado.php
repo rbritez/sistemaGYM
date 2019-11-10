@@ -8,7 +8,7 @@ class Empleado extends Model
 {
     protected $table = 'empleados';
     public $timestamps = false;
-    protected $fillable = ['persona_id', 'turno_id'];
+    protected $fillable = ['persona_id', 'estado'];
 
     public function persona() {
         return $this->belongsTo('App\Persona', 'persona_id');

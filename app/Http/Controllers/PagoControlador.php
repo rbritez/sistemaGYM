@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Pago;
 use App\Inscripcion;
 use App\Empleado;
-
+use App\Cliente;
+use App\Plan;
+use App\Plan_Cliente;
 class PagoControlador extends Controller
 {
     /**
@@ -18,8 +20,9 @@ class PagoControlador extends Controller
     {
         return view('pagos.index', [
             'pagos' => Pago::all(),
+            'planes'=>Plan::all(),
             'inscripciones' => Inscripcion::all(),
-            'empleados' => Empleado::all()
+            'clientes' => Cliente::all()
         ]);
     }
 
@@ -41,17 +44,26 @@ class PagoControlador extends Controller
      */
     public function store(Request $request)
     {
-        $inscripcion = Inscripcion::find($request->input('inscripcion_id'));
+        $fechaActual = date("Y-m-d");
         Pago::create([
-            'cliente_id' => $inscripcion->cliente->id,
-            'empleado_id' => $request->input('empleado_id'),
-            'plan_id' => $inscripcion->plan->id,
-            'monto' => $inscripcion->plan->precio,
+            'cliente_id' => $request->cliente_id,
+            'empleado_id' => 2,
+            'plan_id' => $request->plan_id,
+            'monto' => $request->pago,
         ]);
-        if ($request->input('inscripcion_redirect')) {
-            return redirect()->route('inscripciones.show', $inscripcion->id);
-        }
-        return redirect()->route('pagos.index');
+        $fechaVencimiento = date('Y-m-d',strtotime($fechaActual."+ $request->cant_meses month" ));
+        Plan_Cliente::create([
+            'cliente_id'=>$request->cliente_id,
+            'plan_id'=>$request->plan_id,
+            'fecha_inicio'=>$fechaActual,
+            'fecha_fin'=>$fechaVencimiento,
+        ]);
+        return redirect()->route('pagos.index',[
+            'pagos' => Pago::all(),
+            'planes'=>Plan::all(),
+            'inscripciones' => Inscripcion::all(),
+            'clientes' => Cliente::all()
+        ]);
     }
 
     /**

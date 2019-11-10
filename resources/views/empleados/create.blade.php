@@ -24,7 +24,7 @@
       <label>Turno</label>
       <select name="turno_id" class="form-control">
         @foreach($turnos as $turno)
-          <option value="{{ $turno->id }}">{{ $turno->descripcion }}</option>
+          <?php var_dump($turnos)?>
         @endforeach
       </select>
     </div>
