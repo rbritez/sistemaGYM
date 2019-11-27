@@ -13,4 +13,7 @@ class Maquina extends Model
     public function rutinas() {
         return $this->belongsToMany('App\Rutina', 'rutina_maquinas', 'maquina_id', 'rutina_id');
     }
+    Public function ejercicio(){
+        return $this->hasMany('App\Ejercicio','maquina_id');
+    }
 }

@@ -14,7 +14,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text">Cliente</span>
           </div>
-          <select class="form-control" name="cliente_id" id="cliente_id" required>
+          <select class="form-control selectpicker" name="cliente_id" id="cliente_id" data-live-search="true" required>
             <option value="">Seleccionar...</option>
             @foreach($clientes as $cliente)
             <option value="{{ $cliente->id }}">{{ $cliente->persona->apellido }} {{$cliente->persona->nombre}}</option>

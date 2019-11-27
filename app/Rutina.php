@@ -8,7 +8,7 @@ class Rutina extends Model
 {
     protected $table = 'rutinas';
     public $timestamps = false;
-    protected $fillable = ['descripcion'];
+    protected $fillable = ['descripcion','dificultad','nro_dias','estado'];
 
     public function maquinas() {
         return $this->belongsToMany('App\Maquina', 'rutina_maquinas', 'rutina_id', 'maquina_id');
@@ -16,5 +16,8 @@ class Rutina extends Model
 
     public function inscripciones() {
         return $this->hasMany('App\Inscripcion', 'rutina_id');
+    }
+    public function rutinaxdias() {
+        return $this->hasMany('App\rutinaxdias', 'rutina_id');
     }
 }

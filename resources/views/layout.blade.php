@@ -22,6 +22,7 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-item nav-link" href="{{ route('inscripciones.index') }}">Inscripciones</a>
+        <a class="nav-item nav-link" href="{{route('clientes.index')}}">Clientes</a>
         <a class="nav-item nav-link" href="{{ route('pagos.index') }}">Pagos</a>
         <a class="nav-item nav-link" href="{{ route('planes.index') }}">Planes</a>
         <a class="nav-item nav-link" href="{{ route('rutinas.index') }}">Rutinas</a>
