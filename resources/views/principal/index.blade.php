@@ -14,7 +14,7 @@
               <div class="col mr-2">
                 <div>
                   <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Ingresos del Dia</div>
-                  <div class="h5 mb-0 text-gray-800 font-weight-bold"> $215,000</div>
+                  <div class="h5 mb-0 text-gray-800 font-weight-bold" id="montoDia"> -------- </div>
                 </div>
               </div>
               <div class="col-auto"> 
@@ -88,6 +88,15 @@
 </div>
 @endsection
 @section('js')
+<script>
+      $.post('{{route("pagos.montoDia")}}',{'_token': $('meta[name="csrf-token"]').attr('content')},function(r){
+        console.log(r);
+        if( r.length > 0){
+          $("#montoDia").text('$ '+ r[0].ingreso);
+        }
+      });
+
+</script>
 <script>
   var persona;
   var tabla;

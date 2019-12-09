@@ -8,12 +8,11 @@
         if(isset($fichamedica[0]) && !empty($fichamedica[0])){
             $datos= '{x:'.$fichamedica[0]->altura.',y:'.$fichamedica[0]->peso.'}';
         }
-        
         $datosFecha="";
         $datosPeso="";
         if(isset($fichamedica2[0]) && !empty($fichamedica2[0])){
             foreach ($fichamedica2 as $fm) {
-            $datosFecha = $datosFecha.'"'.$fm->fecha.'",';
+            $datosFecha = $datosFecha.'"'.$newDate = date("d/m/Y", strtotime($fm->fecha)).'",';
             $datosPeso = $datosPeso.$fm->peso.',';
             }
             $datosPeso = substr($datosPeso,0,-1);
@@ -71,7 +70,7 @@
   @foreach($fichamedica as $ficha)
       <tr>
         <td><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal_editar_fichamedica" onclick="mostrar({{$ficha->id}})"> Editar </button></td>
-        <td>{{ $newDate = date("d-m-Y", strtotime($ficha->fecha)) }}</td>
+        <td>{{ $newDate = date("d/m/Y", strtotime($ficha->fecha)) }}</td>
         <td style="text-transform: capitalize;">{{ $ficha->Estadonutricional->descripcion }}</td>
         <td>{{ $ficha->peso }}</td>
         <td>{{ $ficha->altura }}</td>
@@ -216,6 +215,7 @@
         var fechaI = $("#fechaI").val();
         var fechaF = $("#fechaF").val();
         var cliente= $("#cliente_id").val();
+        console.log(cliente);
         $.post('{{route("fichamedica.filtrarFecha")}}',{'_token': $('meta[name="csrf-token"]').attr('content'),'id':cliente,'fechaI': fechaI, 'fechaF': fechaF},function(r){
             var peso = [];
             var fecha=[];

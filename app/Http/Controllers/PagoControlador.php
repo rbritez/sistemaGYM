@@ -35,7 +35,10 @@ class PagoControlador extends Controller
     {
         //
     }
-
+    Public function montoDia(Request $request){
+        $ingresos = Pago::selectRaw("SUM(monto) as 'ingreso'")->whereRaw('DATE(fecha) = curdate()')->get();
+        return $ingresos;
+    }
     /**
      * Store a newly created resource in storage.
      *

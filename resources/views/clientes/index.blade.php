@@ -30,7 +30,7 @@
                   <td>
                       <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal_updateCliente" onclick="mostrar({{$cliente->id}})">Editar</button>
                       <a class="btn btn-info" href="{{ route('planes.show', $cliente->id) }}">Planes</a>
-                      <a href="{{ route('fichamedica.show', $cliente->id)}}" class="btn btn-secondary">Ficha Medica</a>
+                      <a href="{{ route('fichamedica.mostrarFichaMedica', $cliente->id)}}" class="btn btn-secondary">Ficha Medica</a>
                   </td>
                   <td>{{ $cliente->persona->apellido }} {{$cliente->persona->nombre}}</td>
                   <td> @if($cliente->persona->fecha_nac) {{date("d-m-Y",strtotime($cliente->persona->fecha_nac))}}@endif</td>

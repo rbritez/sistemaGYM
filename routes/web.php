@@ -25,7 +25,7 @@ Route::resources([
     'maquinas' => 'MaquinaControlador',
     'pagos' => 'PagoControlador',
     'ingresos' => 'IngresoControlador',
-    'fichamedica' => 'FichamedicaControlador',
+    'fichamedica' => 'FMControlador',
     'productos' => 'ProductosControlador',
     'proveedores' => 'ProveedoresControlador',
     'categorias' => 'CategoriasControlador',
@@ -39,6 +39,7 @@ Route::get('empleados/ingresos/{id}','EmpleadoControlador@ingresos')->name('empl
 Route::get('planes/show/{id}','PlanControlador@show')->name('planes.show');
 Route::get('rutinas/rutinaPDF/{id}','RutinaControlador@rutinaPDF')->name('rutinas.rutinaPDF');
 Route::post('empleados/destroy/{id}','EmpleadoControlador@destroy')->name('empleadodestroy');
+Route::post('pagos/montoDia','PagoControlador@montoDia')->name('pagos.montoDia');
 Route::post('empleados/asistencias','EmpleadoControlador@asistencias')->name('empleados.asistencias');
 Route::post('clientes/totalMes','ClientesControlador@totalMes')->name('clientes.totalMes');
 Route::post('clientes/constantes','ClientesControlador@constantes')->name('clientes.constantes');
@@ -47,8 +48,9 @@ Route::post('clientes/ultimoPlan','ClientesControlador@ultimoPlan')->name('clien
 Route::post('rutinas/index','RutinaControlador@filtrarejercicio')->name('rutina.filtrarejercicio');
 Route::post('ejercicios/mostrarr','EjerciciosControlador@mostrarr')->name('ejercicios.mostrarr');
 Route::post('clientes/mostrar','ClientesControlador@mostrar')->name('clientes.mostrar');
-Route::post('fichamedica/mostrar','FichamedicaControlador@mostrar')->name('fichamedica.mostrar');
-Route::post('fichamedica/filtrarFecha','FichamedicaControlador@filtrarFecha')->name('fichamedica.filtrarFecha');
+Route::post('fichamedica/mostrar','FMControlador@mostrar')->name('fichamedica.mostrar');
+Route::post('fichamedica/filtrarFecha','FMControlador@filtrarFecha')->name('fichamedica.filtrarFecha');
+Route::get('fichamedica/mostrarFichaMedica/{id}','FMControlador@mostrarFichaMedica')->name('fichamedica.mostrarFichaMedica');
 Route::post('SectorCoporal/mostrar','SectorCorporalControlador@mostrar')->name('SectorCorporal.mostrar');
 Route::post('rutinas/listarrutina','RutinaControlador@listarrutina')->name('rutina.listarrutina');
 Route::post('rutina/cambiarestado','RutinaControlador@cambiarestado')->name('rutinas.cambiarestado');
