@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Plan;
+use App\Plan_Cliente;
+use App\Cliente;
 
 class PlanControlador extends Controller
 {
@@ -51,7 +53,9 @@ class PlanControlador extends Controller
      */
     public function show($id)
     {
-        //
+        $cliente = Cliente::find($id);
+        $planes = Plan_Cliente::where('cliente_id',$id)->paginate(5);
+        return view('planes.show',['cliente'=>$cliente,'planes'=>$planes]);
     }
 
     /**

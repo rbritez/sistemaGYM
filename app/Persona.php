@@ -8,7 +8,7 @@ class Persona extends Model
 {
     protected $table = 'personas';
     public $timestamps = false;
-    protected $fillable = ['nombre','apellido', 'dni', 'domicilio'];
+    protected $fillable = ['nombre','apellido', 'dni', 'domicilio','fecha_nac','celular'];
 
     public function empleado() {
         return $this->hasOne('App\Empleado', 'persona_id');

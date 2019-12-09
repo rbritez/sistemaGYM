@@ -9,6 +9,9 @@ use App\Rutina;
 use App\Empleado;
 use App\Persona;
 use App\Cliente;
+use App\Pago;
+use App\Plan_Cliente;
+use App\Rutina_Cliente;
 
 class InscripcionControlador extends Controller
 {
@@ -44,19 +47,31 @@ class InscripcionControlador extends Controller
      */
     public function store(Request $request)
     {
+
+        $hoy = date('Y-m-d');
         $persona = Persona::create([
-            'apellido_nombre' => $request->input('apellido_nombre'),
-            'dni' => $request->input('dni'),
-            'domicilio' => $request->input('domicilio')
+            'apellido' => $request->input('apellido'),
+            'nombre' => $request->input('nombre'),
+            'fecha_nac' => $request->input('fecha_nac'),
+            'celular' => $request->input('celular'),
         ]);
-        $cliente = Cliente::create(['persona_id' => $persona->id]);
+        $cliente = Cliente::create([
+            'persona_id' => $persona->id,
+            'fecha_ingreso'=>$hoy]);
         $inscripcion = Inscripcion::create([
             'cliente_id' => $cliente->id,
             'plan_id' => $request->input('plan_id'),
             'rutina_id' => $request->input('rutina_id'),
-            'empleado_id' => $request->input('empleado_id'),
+            'empleado_id' => '5',
         ]);
-        return redirect()->route('inscripciones.show', $inscripcion->id);
+        $pago = Pago::create([
+            'cliente_id'=>$cliente->id,
+            'empleado_id'=>'5',
+            'plan_id'=>$request->plan_id,
+            'monto'=>$request->input('monto'),
+            'fecha'=>$hoy,
+        ]);
+        return redirect()->route('inscripciones.index');
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Persona;
 use App\Cliente;
 use App\Plan;
 use App\Plan_Cliente;
+use App\Pago;
 class ClientesControlador extends Controller
 {
     /**
@@ -44,23 +45,45 @@ class ClientesControlador extends Controller
         $persona = Persona::create([
             'nombre' => $request->input('nombre'),
             'apellido' => $request->input('apellido'),
+            'fecha_nac'=>$request->input('fecha_nac'),
+            'celular'=>$request->input('celular')
         ]);
         $cliente = Cliente::create([
             'persona_id' => $persona->id,
             'fecha_ingreso'=>$fechaActual,
         ]);
         // CALCULAR FECHA DE VENCIMIENTO
-        $plan = Plan::find($request->plan_id);
-        $fechaVencimiento = date('Y-m-d',strtotime($fechaActual."+ $plan->cant_meses month" ));
-        Plan_Cliente::create([
-            'cliente_id'=>$cliente->id,
-            'plan_id'=>$request->plan_id,
-            'fecha_inicio'=>$fechaActual,
-            'fecha_fin'=>$fechaVencimiento,
-        ]);
+        // $plan = Plan::find($request->plan_id);
+        // $fechaVencimiento = date('Y-m-d',strtotime($fechaActual."+ $plan->cant_meses month" ));
+        // Plan_Cliente::create([
+        //     'cliente_id'=>$cliente->id,
+        //     'plan_id'=>$request->plan_id,
+        //     'fecha_inicio'=>$fechaActual,
+        //     'fecha_fin'=>$fechaVencimiento,
+        // ]);
         return redirect()->route('clientes.index');
     }
+    public function totalMes(Request $request){
+        $clientes = Cliente::selectRaw("DATE_FORMAT(fecha_ingreso,'%M/%Y') as 'fecha',COUNT(id) as 'cantidad', MONTH(fecha_ingreso) as 'fechas' ")
+                    ->groupBy('fecha')->orderBy('fecha_ingreso','desc')->take(2)->get();
 
+        return $clientes;
+    }
+    Public function constantes(Request $request){
+        $clientes = Cliente::selectRaw("clientes.id,persona_id,fecha_ingreso, (select count(id) from pagos where pagos.cliente_id = clientes.id) as 'pagos' ")
+        ->where('estado','1')->orderby('pagos','desc')->take(5)->get();
+        $enviar= array();
+        foreach($clientes as $cl){
+            $enviar[] = array(
+             'cliente_id'=> $cl->id,
+             'nombre'=> $cl->persona->nombre,
+             'apellido'=>$cl->persona->apellido,
+             'fecha_ingreso'=>date("d/m/Y", strtotime($cl->fecha_ingreso)),
+             'pagos'=>$cl->pagos,   
+            );
+        }
+        return $enviar;
+    }
     /**
      * Display the specified resource.
      *
@@ -78,7 +101,16 @@ class ClientesControlador extends Controller
     public function ultimoPlan(Request $request)
     {
         $ultimoPlan = Plan_Cliente::join('planes','planes.id','=','planes_cliente.plan_id')->select('planes_cliente.plan_id','planes.precio')->where('cliente_id','=',$request->id_cliente)->orderBy('fecha_fin','DESC')->limit('1')->get();
-        return $ultimoPlan;
+        $plan = Plan::find($ultimoPlan[0]->plan_id);
+        $array= array();
+        foreach($ultimoPlan as $ut){
+            $array[]=array(
+                "plan_id"=> $ut->plan_id,
+                "precio"=> $ut->precio,
+                "cant_meses"=>$plan->cant_meses,
+            );
+        }
+        return $array;
     }
     public function precio(Request $request){
         $precio = Plan::find($request->id_plan);
@@ -94,7 +126,18 @@ class ClientesControlador extends Controller
     {
         //
     }
-
+    public function mostrar(Request $request){
+        $cliente = Cliente::find($request->id);
+        $persona = Persona::find($cliente->persona_id);
+        $enviar = [
+            'id'=> $cliente->id,
+            'nombre'=> $persona->nombre,
+            'apellido'=>$persona->apellido,
+            'fecha_nac'=>$persona->fecha_nac,
+            'celular'=>$persona->celular,
+        ];
+        return $enviar;
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -104,13 +147,14 @@ class ClientesControlador extends Controller
      */
     public function update(Request $request, $id)
     {
-        $empleado = Empleado::find($id);
-        Persona::find($empleado->persona_id)->update([
+        $cliente = Cliente::find($request->id_cliente);
+        Persona::find($cliente->persona_id)->update([
             'nombre' => $request->nombre,
             'apellido'=>$request->apellido,
-            'dni'=>$request->dni
+            'fecha_nac'=>$request->fecha_nac,
+            'celular'=> $request->celular,
         ]);
-        return redirect()->route('empleados.index');
+        return redirect()->route('clientes.index');
     }
 
     /**

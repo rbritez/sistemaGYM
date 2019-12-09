@@ -97,9 +97,12 @@
       'id_cliente': idcliente},
       function(r){
         if(r.length>0){
+          console.log(r);
           var res = r[0]['plan_id'];
           var precio = r[0]['precio'];
+          var cant_meses= r[0]['cant_meses'];
           $('#plan_id option[value='+res+']').attr("selected",true);
+          $("#cant_meses").val(cant_meses);
           $("#pago").val(precio);
         }else{
           console.log('nada')
@@ -115,7 +118,7 @@
       'id_plan': idplan},
       function(r){
         $("#pago").val();
-        $("#cant_meses").val();
+        $("#cant_meses").val(r.cant_meses);
         $("#pago").val(r.precio);
         $("#cant_meses").val(r.cant_meses);
     })

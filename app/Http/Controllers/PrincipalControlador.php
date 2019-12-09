@@ -3,13 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Pago;
-use App\Inscripcion;
-use App\Empleado;
-use App\Cliente;
-use App\Plan;
-use App\Plan_Cliente;
-class PagoControlador extends Controller
+
+class PrincipalControlador extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,12 +13,7 @@ class PagoControlador extends Controller
      */
     public function index()
     {
-        return view('pagos.index', [
-            'pagos' => Pago::all(),
-            'planes'=>Plan::all(),
-            'inscripciones' => Inscripcion::all(),
-            'clientes' => Cliente::all()
-        ]);
+        return view('principal.index');
     }
 
     /**
@@ -44,27 +34,7 @@ class PagoControlador extends Controller
      */
     public function store(Request $request)
     {
-       
-        $fechaActual = date("Y-m-d");
-        Pago::create([
-            'cliente_id' => $request->cliente_id,
-            'empleado_id' => 2,
-            'plan_id' => $request->plan_id,
-            'monto' => $request->pago,
-        ]);
-        // $fechaVencimiento = date('Y-m-d',strtotime($fechaActual."+ $request->cant_meses month" ));
-        // Plan_Cliente::create([
-        //     'cliente_id'=>$request->cliente_id,
-        //     'plan_id'=>$request->plan_id,
-        //     'fecha_inicio'=>$fechaActual,
-        //     'fecha_fin'=>$fechaVencimiento,
-        // ]);
-        return redirect()->route('pagos.index',[
-            'pagos' => Pago::all(),
-            'planes'=>Plan::all(),
-            'inscripciones' => Inscripcion::all(),
-            'clientes' => Cliente::all()
-        ]);
+        //
     }
 
     /**

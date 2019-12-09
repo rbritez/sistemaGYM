@@ -65,11 +65,11 @@ class IngresoControlador extends Controller
             $FI = $request->fechaInicial;
             $FF = $request->fechaFiinal;
             // dd($request->all());
-            $ingresoEmpleado1 = Ingreso::select('*')->whereBetween('ingresos.fecha',["$request->fechaInicial","$request->fechaFinal"])->Where('empleado_id','=',$id)->get();
+            $ingresoEmpleado1 = Ingreso::select('*')->whereBetween('ingresos.fecha',["$request->fechaInicial","$request->fechaFinal"])->Where('empleado_id','=',$id)->orderBy('fecha','desc')->get();
             $empleado = Empleado::find($id);
             return view('ingresos.show', ['empleado'=> $empleado ,'ingresos' => $ingresoEmpleado1 ,'turnos'=>$turnos,'FechaInicial'=>$request->fechaInicial,'fechaFinal'=>$request->fechaFinal] );
         }else{
-            $ingresoEmpleado = Ingreso::select('*')->where('empleado_id','=',$id)->get();
+            $ingresoEmpleado = Ingreso::select('*')->where('empleado_id','=',$id)->orderBy('fecha','desc')->get();
             $empleado = Empleado::find($id);
             return view('ingresos.show', ['empleado'=> $empleado ,'ingresos' => $ingresoEmpleado,'turnos'=>$turnos ] );
         }

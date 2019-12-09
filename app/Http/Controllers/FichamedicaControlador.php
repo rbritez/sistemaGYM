@@ -46,17 +46,32 @@ class FichamedicaControlador extends Controller
      */
     public function store(Request $request)
     {   
-        // dd($request->all());
+        $imc=0;
+        $altura= ($request->altura/100)*($request->altura/100);
+        $peso = $request->peso+0;
+        $imc = $peso / $altura;
+        switch ($imc) {
+            case $imc >=30.0:
+                $estadoNuticional = 4;
+                break;
+            case $imc >= 25.0:
+                $estadoNuticional = 3;
+                break;
+            case $imc >= 18.5:
+                $estadoNuticional = 2;
+                break;
+            case $imc < 18.5:
+            $estadoNuticional = 1;
+        };
+        //  dd($request->cliente_id);
         $fichamedica = FichaMedica::create([
             'cliente_id'=> $request->input('cliente_id'),
             'fecha' => $request->input('fecha_revision'),
             'peso' => $request->input('peso'),
-            'talla' => $request->input('talla'),
             'altura' => $request->input('altura'),
-            'estado_nutricional_id' => $request->input('estado_nutricional_id'),
+            'estado_nutricional_id' => $estadoNuticional,
         ]);
-        $inscripcion = Inscripcion::find($request->id_inscripcion);
-        return redirect()->route('fichamedica.show',$inscripcion->id);
+        return redirect()->route('fichamedica.show',$request->cliente_id);
     }
 
     /**
@@ -71,15 +86,37 @@ class FichamedicaControlador extends Controller
         // ->join( 'postulante','postulante.id','=','coursexpostulante.postulante_id')
         // ->join('persons','persons.id','=','postulante.person_id')
         // ->select('persons.number_tel','persons.date_birth','postulante.id','persons.name','persons.last_name','persons.dni','postulante.tipo_licencia')->where('coursexpostulante.course_id','=',"$id")->orderBy('persons.last_name','ASC')->get();
-        $inscripcion = Inscripcion::find($id);
+        // $inscripcion = Inscripcion::find($id);
         // dd($inscripcion->cliente_id);
         return view('fichamedica.show', [
-            'inscripcion' => Inscripcion::find($id),
-            'fichamedica' => Fichamedica::where('cliente_id','=', "$inscripcion->cliente_id")->get(),
+            'cliente' => Cliente::find($id),
+            'fichamedica' => Fichamedica::where('cliente_id',$id)->orderBy('fecha','desc')->get(),
+            'fichamedica2'=> Fichamedica::where('cliente_id',$id)->orderBy('fecha','asc')->get(),
             'estadoNutricional' => EstadoNutricional::all()
         ]);
     }
-
+    Public function mostrar(Request $request){
+        $fichamedica = Fichamedica::find($request->id);
+        return $fichamedica;
+    }
+    Public function filtrarFecha(Request $request){
+        $fecha="";
+        $peso="";
+        $filtro = Fichamedica::select('peso','fecha')->WhereBetween('fecha',["$request->fechaI","$request->fechaF"])->where('cliente_id',$request->id)->get();
+        // foreach ($filtro as $data) {
+        //     $fecha = $fecha.'"'.$data->fecha.'",';
+        //     $peso = $peso.$data->peso.',';
+        // }
+        // $peso = substr($peso,0,-1);
+        // $fecha= substr($fecha,0,-1);
+        // $fecha= substr($fecha,0,-1);
+        // $fecha= substr($fecha,1);
+        // $array = array(
+        //     'peso' => $peso,
+        //     'fecha'=> $fecha,
+        // );
+        return $filtro;
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -100,17 +137,30 @@ class FichamedicaControlador extends Controller
      */
     public function update(Request $request, $id)
     {
-        $inscripcion = Inscripcion::find($id);
-        $inscripcion->update([
-            'plan_id' => $request->input('plan_id'),
-            'rutina_id' => $request->input('rutina_id'),
+        $imc=0;
+        $altura= ($request->altura/100)*($request->altura/100);
+        $peso = $request->peso+0;
+        $imc = $peso / $altura;
+        switch ($imc) {
+            case $imc >=30.0:
+                $estadoNuticional = 4;
+                break;
+            case $imc >= 25.0:
+                $estadoNuticional = 3;
+                break;
+            case $imc >= 18.5:
+                $estadoNuticional = 2;
+                break;
+            case $imc < 18.5:
+            $estadoNuticional = 1;
+        };
+        $fichamedica = Fichamedica::find($request->fichamedica_id)->update([
+            'fecha' => $request->input('fecha_revision'),
+            'peso' => $request->input('peso'),
+            'altura' => $request->input('altura'),
+            'estado_nutricional_id' => $estadoNuticional,
         ]);
-        $inscripcion->cliente->persona->update([
-            'apellido_nombre' => $request->input('apellido_nombre'),
-            'dni' => $request->input('dni'),
-            'domicilio' => $request->input('domicilio')
-        ]);
-        return redirect()->route('inscripciones.show', $id);
+        return redirect()->route('fichamedica.show', $request->cliente_id);
     }
 
     /**

@@ -24,4 +24,7 @@ class Cliente extends Model
     public function plan_cliente() {
         return $this->hasMany('App\Plan_Cliente', 'cliente_id');
     }
+    public function Rutina_Cliente() {
+        return $this->hasMany('App\Rutina_Cliente', 'cliente_id');
+    }
 }

@@ -20,4 +20,7 @@ class Rutina extends Model
     public function rutinaxdias() {
         return $this->hasMany('App\rutinaxdias', 'rutina_id');
     }
+    public function rutina_cliente() {
+        return $this->hasMany('App\Rutina_Cliente', 'rutina_id');
+    }
 }

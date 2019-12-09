@@ -8,6 +8,11 @@ use App\Maquina;
 use App\SectorCorpxEjercicio;
 use App\rutinaxdias;
 use App\diaxejercicios;
+use App\Sector_Corporal;
+use PDF;
+// use Barryvdh\DomPDF\Facade as PDF;
+// use Dompdf\Dompdf;
+
 
 class RutinaControlador extends Controller
 {
@@ -19,7 +24,7 @@ class RutinaControlador extends Controller
     public function index()
     {
         $rutinas = Rutina::all();
-        return view('rutinas.index', ['rutinas' => $rutinas]);
+        return view('rutinas.index', ['rutinas' => $rutinas, 'SC' => Sector_Corporal::all() ]);
     }
         
     Public function listarrutina(){
@@ -83,8 +88,13 @@ class RutinaControlador extends Controller
      */
     Public function traerejerciciosfiltro(Request $request){
 
-        $diaxrutina = rutinaxdias::select('*')->where([ ['dia','=',$request->nro_dia],['rutina_id','=',$request->idrutina] ])->get();
-        $ejercicios = diaxejercicios::join('ejercicio','ejercicio.id','=','diasxejercicio.ejercicio_id')->select('*')->where('dia_id','=',$diaxrutina[0]['id'])->get();
+        if($request->idrutina){
+            $diaxrutina = rutinaxdias::select('*')->where([ ['dia','=',$request->nro_dia],['rutina_id','=',$request->idrutina] ])->get();
+            $ejercicios = diaxejercicios::join('ejercicio','ejercicio.id','=','diasxejercicio.ejercicio_id')->select('*')->where('dia_id','=',$diaxrutina[0]['id'])->get();
+        }else{
+            $ejercicios = diaxejercicios::join('ejercicio','ejercicio.id','=','diasxejercicio.ejercicio_id')->select('*')->where('dia_id','=',$request->id)->get();
+        }
+      
         return $ejercicios;
     }
     public function create()
@@ -202,7 +212,7 @@ class RutinaControlador extends Controller
         foreach($rutinass as $reg){
             $array[] = array(
                 // '0'=>'<button class="btn btn-success" onclick="agregarejercicio('.$request->dia.',\''.$reg->ejercicio_id.'\',\''.$reg->descripcion.'\')">Agregar</button>',
-                '0'=>'<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_ver_ejercicios" onclick="verejercicios('.$reg->id.')">Ver Ejercicios</button> '.' <button type="button" style="color:white" class="btn btn btn-warning" onclick="mostrarEdit('.$reg->id.')">Editar</button>',
+                '0'=>'<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_ver_ejercicios" onclick="verejercicios('.$reg->id.')">Ver Ejercicios</button> '.' <button type="button" style="color:white" class="btn btn btn-warning" onclick="mostrarEdit('.$reg->id.')">Editar</button>'.' <a target="_blank" href="rutinas/rutinaPDF/'.$reg->id.'"><button type="button" class="btn btn btn-danger">Imprimir</button></a>',
                 '1'=>$reg->descripcion,
                 '2'=>$reg->dificultad,
                 '3'=>$reg->nro_dias,
@@ -243,6 +253,30 @@ class RutinaControlador extends Controller
     public function edit($id)
     {
         //
+    }
+    Public function rutinaPDF($id){
+        $ejercicios = array();
+        $dias = rutinaxdias::select('*')->where('rutina_id','=',$id)->get();
+        foreach($dias as $dia){
+            $ejj= diaxejercicios::join('ejercicio','ejercicio.id','=','diasxejercicio.ejercicio_id')->select('*')->where('dia_id','=',$dia->id)->get();
+            foreach($ejj as $ej ){
+                $ejercicios[] = array(
+                    'id_dia'=> $ej->dia_id,
+                    'descripcion'=>$ej->descripcion,
+                    'series'=>$ej->series,
+                    'repeticiones'=>$ej->repeticiones,
+                );
+            }
+
+         }
+         
+        $pdf = PDF::loadView('rutinas.rutinaPDF', ['dias'=>$dias,'ejercicios'=>$ejercicios] );
+        return $pdf->stream('rutina.pdf');
+        // $pdf = new Dompdf();
+        // $pdf->set_option("isPhpEnabled", true);
+        // $pdf = \App::make('dompdf.wrapper');
+        //  $pdf = PDF::loadView('courses.pdf.list',['data_ass'=>$data_ass,'postulantes'=>$postulantes, 'id'=>$id,'course'=>$course,'nro'=>$nro,'nro_p'=>$nro_p]);
+        // return  $pdf->stream('list.pdf');
     }
 
     /**

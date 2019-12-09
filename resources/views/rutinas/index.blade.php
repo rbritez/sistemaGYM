@@ -5,7 +5,7 @@
 @section('content')
   <h1>Rutinas</h1>
   <hr>
-  <button class="btn btn-primary" id="btnmostrarform" onclick="mostrarform(1)"> Nueva Rutina Estandar</button>
+  <button class="btn btn-primary" id="btnmostrarform" onclick="mostrarform(1)"> Nueva Rutina Estandar</button> 
 
   <div id="formularioRutina" style="display:none">
     <form name="formulario" id="formulario" method="POST">
@@ -127,76 +127,18 @@
             <div class="modal-body">
                       <div id="principal-modal">
                           <form action="" method="get">
-                              <div class="row">
-                                  <div class="col-md-3 col-lg-3 col- col-sm-3 col-xs-3">
+                            <div class="row">
+                                @foreach ($SC as $item)
+                                <div class="col-md-3 col-lg-3 col-3 col-sm-3 col-xs-3">
                                     <input type="hidden" id="diaSeleciconado" value="">
-                                    <button type="button" class="btn btn-default btn-block" style="color:white; font-size:12px; margin:7px;padding:2px 15px" onclick="listarEjercicios(1)"
-                                        <p><img src="{{asset('img/abdominales.png')}}"  class="rounded-circle"  width="80" height="70" alt=""></p>
-                                        <b>ABDOMINALES</b>
+                                    <button type="button" class="btn btn-default btn-block" style="color:white; font-size:12px; margin:7px;padding:2px 15px" onclick="listarEjercicios({{$item->id}})">
+                                        <p><img src="{{asset('img/'.$item->imagen)}}"  class="rounded-circle"  width="80" height="70" alt=""></p>
+                                        <b style="text-transformo:uppercase">{{$item->nombre}}</b>
                                     </button>
-                                  </div>
-                                  <div class="col-md-3 col-lg-3 col- col-sm-3 col-xs-3">
-                                    <button type="button" class="btn btn-default btn-block" style="color:white; font-size:12px; margin:7px;padding:2px 15px" onclick="listarEjercicios(6)">
-                                        <p><img src="{{asset('img/pechos.png')}}" class="rounded-circle" width="80" height="70" alt=""></p>
-                                        <b>PECHO</b>
-                                    </button>
-                                  </div>
-                                  <div class="col-md-3 col-lg-3 col- col-sm-3 col-xs-3">
-                                      <button type="button" class="btn btn-default btn-block" style="color:white; font-size:12px; margin:7px;padding:2px 15px" onclick="listarEjercicios(2)">
-                                          <p><img src="{{asset('img/espalda.png')}}" class="rounded-circle" width="80" height="70" alt=""></p>
-                                          <b>ESPALDA</b>
-                                      </button>
-                                  </div>
-                                  <div class="col-md-3 col-lg-3 col- col-sm-3 col-xs-3">
-                                      <button type="button" class="btn btn-default btn-block" style="color:white; font-size:12px; margin:7px;padding:2px 19px" onclick="listarEjercicios(5)">
-                                          <p><img src="{{asset('img/piernas.png')}}" class="rounded-circle" width="80" height="70" alt=""></p>
-                                          <b>PIERNAS</b>
-                                      </button>
-                                  </div>
-                                  <div class="col-md-3 col-lg-3 col- col-sm-3 col-xs-3">
-                                      <button type="button" class="btn btn-default btn-block" style="color:white; font-size:12px; margin:7px;padding:2px 15px" onclick="listarEjercicios(3)">
-                                          <p><img src="{{asset('img/biceps.png')}}" class="rounded-circle" width="80" height="70" alt=""></p>
-                                          <b>BICEPS</b>
-                                      </button>
-                                  </div>
-                                  <div class="col-md-3 col-lg-3 col- col-sm-3 col-xs-3">
-                                      <button type="button" class="btn btn-default btn-block" style="color:white; font-size:12px; margin:7px;padding:2px 15px" onclick="listarEjercicios(3)">
-                                          <p><img src="{{asset('img/triceps.png')}}" class="rounded-circle" width="80" height="70" alt=""></p>
-                                          <b>TRICEPS</b>
-                                      </button>
-                                  </div>
-                                  <div class="col-md-3 col-lg-3 col- col-sm-3 col-xs-3">
-                                      <button type="button" class="btn btn-default btn-block" style="color:white; font-size:12px; margin:7px;padding:2px 15px" onclick="listarEjercicios(7)">
-                                          <p><img src="{{asset('img/pantorrillas.png')}}" class="rounded-circle" width="80" height="70" alt=""></p>
-                                          <b>PANTORRILLAS</b>
-                                      </button>
-                                  </div>
-                                  <div class="col-md-3 col-lg-3 col- col-sm-3 col-xs-3">
-                                      <button type="button" class="btn btn-default btn-block" style="color:white; font-size:12px; margin:7px;padding:2px 15px" onclick="listarEjercicios(8)">
-                                          <p><img src="{{asset('img/hombros.png')}}" class="rounded-circle" width="80" height="70" alt=""></p>
-                                          <b>HOMBROS</b>
-                                      </button>
-                                  </div>
-                                  <div class="col-md-3 col-lg-3 col- col-sm-3 col-xs-3">
-                                    <button type="button" class="btn btn-default btn-block" style="color:white; font-size:12px; margin:7px;padding:2px 15px" onclick="listarEjercicios(9)">
-                                      <p> <img src="{{asset('img/gluteos.jpg')}}" alt=""  class="rounded-circle" width="80" height="70" ></p>
-                                        <b>GLUTEOS</b>
-                                    </button>
-                                  </div>
-                                  <div class="col-md-3 col-lg-3 col- col-sm-3 col-xs-3">
-                                    <button type="button" class="btn btn-default btn-block" style="color:white; font-size:12px; margin:7px;padding:2px 18px" onclick="listarEjercicios(10)">
-                                        <p><img src="{{asset('img/antebrazos.png')}}" alt=""  class="rounded-circle" width="80" height="70" ></p>
-                                        <b>ANTEBRAZOS</b>
-                                    </button>
-                                  </div>
-                                  <div class="col-md-3 col-lg-3 col- col-sm-3 col-xs-3">
-                                    <button type="button" class="btn btn-default btn-block" style="color:white; font-size:12px; margin:7px;padding:2px 15px" onclick="listarEjercicios(11)">
-                                        <p><img src="{{asset('img/todo.png')}}" alt="" class="rounded-circle" width="80" height="70" ></p>
-                                        <b>TODOS</b>
-                                    </button>
-                                  </div>
-                                </div>  
-                              </form>
+                                </div>
+                                @endforeach
+                            </div>  
+                          </form>
                       </div> <!-- principal modal -->
                           <div  id="table-ejercicios-mostrar" style="display:none;">
                             <div class="row">

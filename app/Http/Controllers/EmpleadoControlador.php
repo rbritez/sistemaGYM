@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Empleado;
 use App\Turno;
 use App\Persona;
+use App\Ingreso;
 
 class EmpleadoControlador extends Controller
 {
@@ -24,6 +25,24 @@ class EmpleadoControlador extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    Public function asistencias(){
+        $asistencias = Ingreso::select()->whereRaw('YEARWEEK(fecha - INTERVAL 1 DAY) = YEARWEEK(NOW())')->orderby('empleado_id','desc')->get();
+        $array = array();
+        foreach( $asistencias as $asistencia){
+            $array[] = array(
+                'id'=> $asistencia->id,
+                'empleado_id'=>$asistencia->empleado_id,
+                'apellido'=> $asistencia->empleado->persona->apellido,
+                'nombre'=> $asistencia->empleado->persona->nombre,
+                'fecha'=>$asistencia->fecha,
+                'hora'=>$asistencia->hora,
+                'turno_id'=>$asistencia->turno_id,
+                'turno'=>$asistencia->turno->descripcion,
+            );
+        };
+
+        return $array;
+    }
     public function create()
     {
         return view('empleados.create', ['turnos' => Turno::all()]);
