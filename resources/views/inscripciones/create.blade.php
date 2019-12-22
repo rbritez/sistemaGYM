@@ -24,15 +24,67 @@
     <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
       <div class="form-group">
         <label>Fecha de Cumpleaños</label>
-        <input type="date" name="fecha_nac" class="form-control" placeholder="" required>
+        <input type="date" name="fecha_nac" class="form-control" required>
       </div>
     </div>
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+        <div class="form-group">
+          <label>N° Documento</label>
+          <input type="text" name="dni" placeholder="11.222.333" class="form-control" placeholder="">
+        </div>
+      </div>
       <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
           <label>Celular</label>
           <input type="text" name="celular" class="form-control" placeholder="3704000000" required>
         </div>
       </div>
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" class="form-control" placeholder="ejemplo@ejemplo.com">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+          <div class="form-group">
+            <label>Sexo</label>
+            <select name="sexo" id="sexo" class="form-control" required>
+              <option value="">Seleccionar...</option>
+              <option value="h">Hombre</option>
+              <option value="m">Mujer</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+          <div class="form-group">
+            <label>Barrio</label>
+            <input type="text" name="barrio" class="form-control" placeholder="San Martin" >
+          </div>
+        </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+            <div class="form-group">
+              <label>Calle</label>
+              <input type="text" name="calle" class="form-control" placeholder="España">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+              <div class="form-group">
+                <label>Altura</label>
+                <input type="text" name="altura" class="form-control" placeholder="1532">
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+              <div class="form-group">
+                <label>Nro Dpto</label>
+                <input type="text" name="nro_dpto" class="form-control" placeholder="12A">
+              </div>
+            </div>
+              <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                <div class="form-group">
+                  <label>Nro Piso</label>
+                  <input type="text" name="nro_piso" class="form-control" placeholder="2">
+                </div>
+              </div>
 
       <div class="col-sm-12"><h3>Seleccione Rutina y Plan</h3></div>
       <div class="col-sm-4">

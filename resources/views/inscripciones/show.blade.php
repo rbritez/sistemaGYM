@@ -10,30 +10,87 @@
   @method('PUT')
     <div class="row">
       <div class="col-sm-12"><h3>Datos del Cliente</h3></div>
-      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-        <div class="form-group">
-          <label>Apellido</label>
-        <input type="text" name="apellido" class="form-control" placeholder="Perez" value="{{$inscripcion->cliente->persona->apellido}}" required>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-        <div class="form-group">
-          <label>Nombre</label>
-          <input type="text" name="nombre" class="form-control" placeholder="Juan" value="{{$inscripcion->cliente->persona->nombre}}" required>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-        <div class="form-group">
-          <label>Fecha de Cumpleaños</label>
-          <input type="date" name="fecha_nac" class="form-control" placeholder="" value="{{$inscripcion->cliente->persona->fecha_nac}}" required>
-        </div>
-      </div>
+
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-          <div class="form-group">
-            <label>Celular</label>
-            <input type="text" name="celular" class="form-control" placeholder="3704000000" value="{{$inscripcion->cliente->persona->celular}}" required>
+            <div class="form-group">
+              <label>Apellido</label>
+              <input type="text" name="apellido" class="form-control" value="{{$inscripcion->cliente->persona->apellido}}" required>
+            </div>
           </div>
-        </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input type="text" name="nombre" class="form-control" value="{{$inscripcion->cliente->persona->nombre}}" required>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+            <div class="form-group">
+              <label>Fecha de Cumpleaños</label>
+              <input type="date" name="fecha_nac" class="form-control" value="{{$inscripcion->cliente->persona->fecha_nac}}" required>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+              <div class="form-group">
+                <label>N° Documento</label>
+                <input type="text" name="dni" placeholder="11.222.333" class="form-control"  value="{{$inscripcion->cliente->persona->dni}}" placeholder="">
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+              <div class="form-group">
+                <label>Celular</label>
+                <input type="text" name="celular" class="form-control"  value="{{$inscripcion->cliente->persona->celular}}" required>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                <div class="form-group">
+                  <label>Email</label>
+                  <input type="email" name="email" class="form-control"  value="{{$inscripcion->cliente->persona->email}}" placeholder="ejemplo@ejemplo.com">
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                <div class="form-group">
+                  <label>Sexo</label>
+                  <select name="sexo" id="sexo" class="form-control">
+                    @if ($inscripcion->cliente->persona->sexo == 'h')
+                    <option value="h" selected>Hombre</option>    
+                    <option value="m">Mujer</option>
+                    @else
+                    <option value="h">Hombre</option>    
+                    <option value="m" selected>Mujer</option>
+                    @endif
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                <div class="form-group">
+                  <label>Barrio</label>
+                  <input type="text" name="barrio" class="form-control" placeholder="San Martin"  value="{{$inscripcion->cliente->persona->barrio}}">
+                </div>
+              </div>
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <label>Calle</label>
+                    <input type="text" name="calle" class="form-control" placeholder="España"  value="{{$inscripcion->cliente->persona->calle}}">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                      <label>Altura</label>
+                      <input type="text" name="altura" class="form-control"  value="{{$inscripcion->cliente->persona->altura}}" placeholder="1532">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                      <label>Nro Dpto</label>
+                      <input type="text" name="nro_dpto" class="form-control" placeholder="12A"  value="{{$inscripcion->cliente->persona->nro_dpto}}">
+                    </div>
+                  </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <label>Nro Piso</label>
+                        <input type="text" name="nro_piso" class="form-control" placeholder="2" value="{{$inscripcion->cliente->persona->nro_piso}}">
+                      </div>
+                    </div>
   
         <div class="col-sm-12"><h3>Seleccione Rutina y Plan</h3></div>
         <div class="col-lg-3 col-md-6 col-sm-6">

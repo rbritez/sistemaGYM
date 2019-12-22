@@ -71,8 +71,16 @@ class InscripcionControlador extends Controller
         $persona = Persona::create([
             'apellido' => $request->input('apellido'),
             'nombre' => $request->input('nombre'),
+            'dni'=>$request->dni,
             'fecha_nac' => $request->input('fecha_nac'),
             'celular' => $request->input('celular'),
+            'email'=>$request->email,
+            'sexo'=>$request->sexo,
+            'barrio'=>$request->barrio,
+            'calle'=>$request->calle,
+            'altura'=>$request->altura,
+            'nro_dpto'=>$request->nro_dpto,
+            'nro_piso'=>$request->nro_piso,
         ]);
         $cliente = Cliente::create([
             'persona_id' => $persona->id,
@@ -194,16 +202,6 @@ class InscripcionControlador extends Controller
         $mensaje=1;
         $fechaActual = date("Y-m-d");
         $inscripcion = Inscripcion::find($id);
-        //MODIFICAMOS EL SALDO
-        if($request->usarSaldo =="on"){
-            // dd($request->usarSaldo);
-            $saldo = Saldo::where('cliente_id',$inscripcion->cliente_id)->get();
-            $nuevoSaldo = $saldo[0]['monto_saldo'] - $request->monto_saldo;
-            
-            $newsaldo = Saldo::find($saldo[0]['id'])->update([
-                'monto_saldo'=>$nuevoSaldo,
-            ]);
-        }
 
 
         if($inscripcion->plan_id == $request->plan_id){
@@ -211,16 +209,16 @@ class InscripcionControlador extends Controller
             $inscripcion->cliente->persona->update([
                 'apellido' => $request->input('apellido'),
                 'nombre' => $request->input('nombre'),
+                'dni'=>$request->dni,
                 'fecha_nac' => $request->input('fecha_nac'),
                 'celular' => $request->input('celular'),
-                //'email'=>$request->email,
-                // 'dni'=>$request->dni,
-                // 'sexo'=>$request->sexo,
-                // 'barrio'=>$request->barrio,
-                // 'calle'=>$request->calle,
-                // 'altura'=>$request->altura,
-                // 'nro_dpto'=>$request->nro_dpto,
-                // 'nro_piso'=>$request->nro_piso,
+                'email'=>$request->email,
+                'sexo'=>$request->sexo,
+                'barrio'=>$request->barrio,
+                'calle'=>$request->calle,
+                'altura'=>$request->altura,
+                'nro_dpto'=>$request->nro_dpto,
+                'nro_piso'=>$request->nro_piso,
             ]);
             //MODIFICAMOS LA RUTINA
             if($inscripcion->rutina_id == $request->rutina_id){
@@ -238,6 +236,16 @@ class InscripcionControlador extends Controller
             }
             return redirect()->route('inscripciones.index');
         }else{
+                //MODIFICAMOS EL SALDO
+                if($request->usarSaldo =="on"){
+                    // dd($request->usarSaldo);
+                    $saldo = Saldo::where('cliente_id',$inscripcion->cliente_id)->get();
+                    $nuevoSaldo = $saldo[0]['monto_saldo'] - $request->monto_saldo;
+                    
+                    $newsaldo = Saldo::find($saldo[0]['id'])->update([
+                        'monto_saldo'=>$nuevoSaldo,
+                    ]);
+                }
             //anulamos el pago
             $pagoANT = Pago::where([['cliente_id',$inscripcion->cliente_id],['plan_id',$inscripcion->plan_id]])->orderBy('id','desc')->take(1)->get();
             // $pagoAnular = Pago::find($pagoANT[0]['id'])->update([
