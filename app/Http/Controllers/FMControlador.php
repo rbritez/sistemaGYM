@@ -59,13 +59,18 @@ class FMControlador extends Controller
     }
 
 
-    public function mostrarFichaMedica($id)
+    public function mostrarFichaMedica(Request $request,$id)
     {
+        if($request->mensaje){
+            $mensaje = $request->mensaje;
+        }else{
+        $mensaje = "0";
+        }
         return view('fichamedica.mostrarFichaMedica', [
             'cliente' => Cliente::find($id),
             'fichamedica' => Fichamedica::where('cliente_id','=', "$id")->orderBy('fecha','desc')->get(),
             'fichamedica2' => Fichamedica::where('cliente_id','=', "$id")->get(),
-           
+           'mensaje'=> $mensaje
         ]);
     }
     /**
@@ -88,7 +93,6 @@ class FMControlador extends Controller
      */
     public function update(Request $request, $id)
     {
- 
         $peso = $request->peso;
         $altura = ($request->altura/100)*($request->altura/100);
         $estadoN = $peso/$altura;
@@ -110,14 +114,15 @@ class FMControlador extends Controller
             //obesidad
             $IMC=4;
         }      
-        $fichamedica = FichaMedica::find($request->cliente_id)->update([
+        $fichamedica = FichaMedica::find($request->fichamedica_id)->update([
             'cliente_id'=> $request->input('cliente_id'),
             'fecha' => $request->input('fecha_revision'),
             'peso' => $request->input('peso'),
             'altura' => $request->input('altura'),
             'estado_nutricional_id' => $IMC,
         ]);
-        return redirect()->route('fichamedica.mostrarFichaMedica',$request->cliente_id);
+        $mensaje = 1;
+        return redirect()->route('fichamedica.mostrarFichaMedica',[$request->cliente_id, 'mensaje'=>$mensaje]);
     }
 
     /**

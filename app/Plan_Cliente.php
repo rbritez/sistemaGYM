@@ -16,5 +16,11 @@ class Plan_Cliente extends Model
     public function plan() {
         return $this->belongsTo('App\Plan', 'plan_id');
     }
-    
+    public function notacreditoANT() {
+        return $this->hasMany('App\NotaCredito', 'planclienteANT_id');
+    }
+    public function notacreditoACT() {
+        return $this->hasMany('App\NotaCredito', 'planACT_id');
+    }
+
 }

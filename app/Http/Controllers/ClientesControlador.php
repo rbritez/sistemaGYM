@@ -8,6 +8,8 @@ use App\Cliente;
 use App\Plan;
 use App\Plan_Cliente;
 use App\Pago;
+use PDF;
+
 class ClientesControlador extends Controller
 {
     /**
@@ -90,13 +92,13 @@ class ClientesControlador extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        return view('empleados.show', [
-            'empleado' => Empleado::find($id),
-            'turnos' => Turno::all(),
-        ]);
-    }
+    // public function show($id)
+    // {
+    //     return view('empleados.show', [
+    //         'empleado' => Empleado::find($id),
+    //         'turnos' => Turno::all(),
+    //     ]);
+    // }
     
     public function ultimoPlan(Request $request)
     {
@@ -116,6 +118,21 @@ class ClientesControlador extends Controller
         $precio = Plan::find($request->id_plan);
         return $precio;
     }
+    public function activosfinplan(Request $request){
+        $hoy = date('Y-m-d');
+        $clientes = Cliente::where([['estado','=', 1],['fecha_inactivo','<', "$hoy"]])->get();
+        $enviar = array();
+     
+        foreach($clientes as $i) {
+            $enviar[]= array(
+                'apellido' => $i->persona->apellido,
+                'nombre'=> $i->persona->nombre,
+                'contacto'=> $i->persona->celular,
+                'fin_plan'=>date('d/m/Y',strtotime($i->fecha_inactivo)),
+            );
+        }
+        return $enviar;
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -125,6 +142,11 @@ class ClientesControlador extends Controller
     public function edit($id)
     {
         //
+    }
+    Public function inactivosPDF(Request $request, $id){
+        $clientes = Cliente::where('estado','0')->get();
+        $pdf = PDF::loadView('clientes.inactivosPDF', ['clientes'=>$clientes] );
+        return $pdf->stream('clientesInactivos.pdf');
     }
     public function mostrar(Request $request){
         $cliente = Cliente::find($request->id);

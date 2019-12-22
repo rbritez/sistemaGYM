@@ -24,7 +24,7 @@
             @if($item->estado == 1)
             <td><b style="color:aliceblue;background-color:darkgreen;padding:5px 11px;border-radius:5px">Activo</b></td>
             @else
-            <b style="color:aliceblue;background-color:darkred;padding:5px 11px;border-radius:5px">Concluido</b>
+            <td><b style="color:aliceblue;background-color:darkred;padding:5px 11px;border-radius:5px">Concluido</b></td>
             @endif
          
         </tr>

@@ -21,4 +21,8 @@ class Plan extends Model
     public function plan_cliente() {
         return $this->hasMany('App\Plan_Cliente', 'plan_id');
     }
+    public function notacreditoACT() {
+        return $this->hasMany('App\NotaCredito', 'planclienteACT_id');
+    }
+    
 }

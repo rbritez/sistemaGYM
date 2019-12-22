@@ -58,7 +58,7 @@
       <th>Plan</th>
       <th>Monto</th>
       <th>Fecha Pago</th>
-      <th>Empleado</th>
+      {{-- <th>Empleado</th> --}}
     </tr>
   </thead>
   <tbody>
@@ -70,7 +70,7 @@
         <td>{{ $pago->plan->descripcion }}</td>
         <td>${{ $pago->monto }}</td>
         <td>{{ $pago->fecha }}</td>
-        <td style="text-transform:capitalize"> {{ $pago->empleado->persona->apellido }} {{ $pago->empleado->persona->nombre }}</td>
+        {{-- <td style="text-transform:capitalize"> {{ $pago->empleado->persona->apellido }} {{ $pago->empleado->persona->nombre }}</td> --}}
       </tr>
     @endforeach
   </tbody>

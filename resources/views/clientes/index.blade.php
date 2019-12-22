@@ -7,7 +7,7 @@
 <hr>
 <div>
   <button class="btn btn-primary" data-toggle="modal" data-target="#modal_newCliente">Nuevo Cliente</button> 
-  <button class="btn btn-info">Clientes Inactivos</button>
+<a href="{{route('clientes.inactivosPDF',1)}}" target="_blank" ><button class="btn btn-info">Clientes Inactivos</button></a>
 </div>
 <br>
 <div class="table-responsive">

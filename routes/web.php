@@ -39,9 +39,15 @@ Route::get('empleados/ingresos/{id}','EmpleadoControlador@ingresos')->name('empl
 Route::get('planes/show/{id}','PlanControlador@show')->name('planes.show');
 Route::get('rutinas/rutinaPDF/{id}','RutinaControlador@rutinaPDF')->name('rutinas.rutinaPDF');
 Route::post('empleados/destroy/{id}','EmpleadoControlador@destroy')->name('empleadodestroy');
+Route::get('clientes/inactivosPDF/{id}','ClientesControlador@inactivosPDF')->name('clientes.inactivosPDF');
+Route::post('inscripciones/traerinscripcion','InscripcionControlador@traerinscripcion')->name('inscripciones.traerinscripcion');
+Route::get('inscripciones/reciboPDF/{id}','InscripcionControlador@reciboPDF')->name('inscripciones.reciboPDF');
+Route::get('inscripciones/notacreditoPDF/{id}','InscripcionControlador@notacreditoPDF')->name('inscripciones.notacreditoPDF');
+Route::put('inscripciones/updateRutina/{id}','InscripcionControlador@updateRutina')->name('inscripciones.updateRutina');
 Route::post('pagos/montoDia','PagoControlador@montoDia')->name('pagos.montoDia');
 Route::post('empleados/asistencias','EmpleadoControlador@asistencias')->name('empleados.asistencias');
 Route::post('clientes/totalMes','ClientesControlador@totalMes')->name('clientes.totalMes');
+Route::post('clientes/activosfinplan','ClientesControlador@activosfinplan')->name('clientes.activosfinplan');
 Route::post('clientes/constantes','ClientesControlador@constantes')->name('clientes.constantes');
 Route::get('ejercicios/destroy/{id}','EjerciciosControlador@destroy')->name('ejercicios.destroy');
 Route::post('clientes/ultimoPlan','ClientesControlador@ultimoPlan')->name('clientes.ultimoPlan');

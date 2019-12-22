@@ -27,4 +27,7 @@ class Cliente extends Model
     public function Rutina_Cliente() {
         return $this->hasMany('App\Rutina_Cliente', 'cliente_id');
     }
+    public function Saldo() {
+        return $this->hasMany('App\Saldo', 'cliente_id');
+    }
 }

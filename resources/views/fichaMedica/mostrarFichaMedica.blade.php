@@ -175,13 +175,43 @@
         </div><!-- div content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
-
+  <button id="mensajebtn" data-toggle="modal" data-target="#mensaje"></button>
+  {{-- -------------------------------------- modale mensaje ------------------------------------------------------------------- --}}
+  <div class="modal fade" id="mensaje"> <!-- modallllllllll EDITARRR-->
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content"> <!-- div content --> 
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12" style="text-align:center">
+                        La Ficha Medica se ha Modificado con Exito!! 
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer ">
+              <div class="col-10 justify-content-md-start">
+                  {{-- <button type="button" class="btn btn-danger float-left" data-dismiss="modal">Volver</button> --}}
+              </div>
+            <a href="{{route('fichamedica.mostrarFichaMedica',$cliente->id)}}"><button type="submit" class="btn btn-primary float-right" id="btnbtnOk"> OK</button></a>
+            </div>
+        </div><!-- div content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
 @endsection
 @section('js')
 <script>
     function init(){
         $("#fechaI").change(filtrarfecha);
         $("#fechaF").change(filtrarfecha);
+        validarmensaje();
+    }
+    function validarmensaje(){
+        var mensaje = {{$mensaje}};
+        console.log(mensaje);
+        if(mensaje == 0){
+            
+        }else{
+            $("#mensajebtn").trigger('click');
+        }
     }
         function zfill(number, width) {
         var numberOutput = Math.abs(number); /* Valor absoluto del número */

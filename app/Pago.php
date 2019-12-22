@@ -8,7 +8,7 @@ class Pago extends Model
 {
     protected $table = 'pagos';
     public $timestamps = false;
-    protected $fillable = ['cliente_id', 'empleado_id', 'plan_id', 'monto'];
+    protected $fillable = ['cliente_id', 'empleado_id', 'plan_id', 'monto','fecha','estado'];
 
     public function cliente() {
         return $this->belongsTo('App\Cliente', 'cliente_id');
@@ -20,5 +20,8 @@ class Pago extends Model
 
     public function plan() {
         return $this->belongsTo('App\Plan', 'plan_id');
+    }
+    public function notacredito() {
+        return $this->hasMany('App\NotaCredito', 'pago_id');
     }
 }

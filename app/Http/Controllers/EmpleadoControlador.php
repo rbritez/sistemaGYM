@@ -26,18 +26,15 @@ class EmpleadoControlador extends Controller
      * @return \Illuminate\Http\Response
      */
     Public function asistencias(){
-        $asistencias = Ingreso::select()->whereRaw('YEARWEEK(fecha - INTERVAL 1 DAY) = YEARWEEK(NOW())')->orderby('empleado_id','desc')->get();
+        $asistencias = Ingreso::selectRaw('fecha ,empleado_id, COUNT(id) AS ingresos')->whereRaw('YEARWEEK(fecha - INTERVAL 1 DAY) = YEARWEEK(NOW())')->orderby('fecha','asc')->groupBy(['fecha'],['empleado_id'])->get();
         $array = array();
         foreach( $asistencias as $asistencia){
             $array[] = array(
-                'id'=> $asistencia->id,
                 'empleado_id'=>$asistencia->empleado_id,
                 'apellido'=> $asistencia->empleado->persona->apellido,
                 'nombre'=> $asistencia->empleado->persona->nombre,
-                'fecha'=>$asistencia->fecha,
-                'hora'=>$asistencia->hora,
-                'turno_id'=>$asistencia->turno_id,
-                'turno'=>$asistencia->turno->descripcion,
+                'fechaa'=>date('d/m/Y',strtotime($asistencia->fecha)),
+                'turnos' =>$asistencia->ingresos,
             );
         };
 

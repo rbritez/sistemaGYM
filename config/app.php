@@ -161,6 +161,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         // DOM PDF
         Barryvdh\DomPDF\ServiceProvider::class,
+        // Alertify
+        odannyc\Alertify\AlertifyServiceProvider::class,
 
     ],
 
@@ -212,6 +214,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         // DOM PDF
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        // Alertify
+        'Alertify' => odannyc\Alertify\Alertify::class,
 
     ],
 

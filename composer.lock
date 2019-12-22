@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2d327e45d10738b41db3aa98d5891621",
+    "content-hash": "aa8c0bf4cb87b0a561a2acf61fa0d9aa",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -1046,6 +1046,43 @@
                 "php"
             ],
             "time": "2018-09-18T07:03:24+00:00"
+        },
+        {
+            "name": "odannyc/laravel-alertify",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/odannyc/laravel-alertify.git",
+                "reference": "108e2c57495a80ad658f069ef05a7d63d94a52b5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/odannyc/laravel-alertify/zipball/108e2c57495a80ad658f069ef05a7d63d94a52b5",
+                "reference": "108e2c57495a80ad658f069ef05a7d63d94a52b5",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/session": "^5.4",
+                "illuminate/support": "^5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "odannyc\\Alertify\\": "src/Alertify/"
+                },
+                "files": [
+                    "src/Alertify/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Danny Carrillo",
+                    "email": "odannycx@gmail.com"
+                }
+            ],
+            "description": "An alertify package for Laravel",
+            "time": "2017-07-17T20:37:57+00:00"
         },
         {
             "name": "paragonie/random_compat",

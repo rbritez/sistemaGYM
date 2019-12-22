@@ -9,7 +9,7 @@
     <div>
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_editEmpleadoo">Crear Empleado</button>
       <a href="{{ route('turnos.index') }}" class="btn btn-primary">Ver turnos</a>
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_newIngreso">Nuevo Ingreso</button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_newIngreso" onclick="turnoauto()">Nuevo Ingreso</button>
     </div>
     <br>
     <div class="table-responsive">
@@ -82,7 +82,7 @@
                               <div class="form-group row">
                                   <label class="col-sm-4 col-form-label">TURNO</label>
                                   <div class="col-sm-8">
-                                    <select name="turno_id" class="form-control" required>
+                                    <select name="turno_id" class="form-control" id="turnonew" required>
                                       <option value="">Seleccionar...</option>
                                       @foreach ($turnos as $turno)
                                     <option value={{$turno->id}}>{{$turno->descripcion}}</option>
@@ -93,13 +93,13 @@
                               <div class="form-group row">
                                 <label class="col-sm-4 col-form-label" >FECHA</label>
                                 <div class="col-sm-8">
-                                    <input type="date" name="fecha" class="form-control" id="Ddate" required>
+                                    <input type="date" name="fecha" class="form-control" id="Ddate" required readonly>
                                 </div>
                               </div>
                               <div class="form-group row">
                                   <label class="col-sm-4 col-form-label" >HORA</label>
                                   <div class="col-sm-8">
-                                      <input type="time" name="hora" class="form-control" id="DTime" required>
+                                      <input type="time" name="hora" class="form-control" id="DTime" required readonly>
                                   </div>
                                 </div>
                       </div>
@@ -288,9 +288,19 @@
     $("#botonPdf").css('color', 'white');
     $("#botonPdf").css('background', '#D33724');
 }
-
+function turnoauto(){
+  var date = new Date();
+  var hora = date.getHours();
+ 
+  if(hora <14){
+    $("#turnonew").val(7);
+  }else if( hora < 19){
+    $("#turnonew").val(8);
+  }else{
+    $("#turnonew").val(9);
+  }
+}
 function cambiarestado(idd){
-  console.log()
   $.ajax({
     headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
     // url: "{{route('empleadodestroy', $empleado->id)}}",
@@ -302,7 +312,6 @@ function cambiarestado(idd){
     processData: false,
         //si se ejecuta de manera correcta ,pasa a la siguiente instancia
     success: function(datos) {
-      console.log(datos)
      location.reload();
     }
   
@@ -343,7 +352,6 @@ function dateTimeLocal(){
     }
     fechaActual = dateTime.getFullYear() + "-" + newmes + "-" + newday;
     horaActual = newhora+":"+ newminuto;
-    console.log(fechaActual);
     inputDTime.val(horaActual);
     inputDdate.val(fechaActual);
   }

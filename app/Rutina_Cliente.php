@@ -8,7 +8,7 @@ class Rutina_Cliente extends Model
 {
     protected $table = 'rutina_cliente';
     public $timestamps = false;
-    protected $fillable = ['cliente_id','runtina_id','fecha_cambio'];
+    protected $fillable = ['cliente_id','rutina_id','fecha_cambio'];
 
     public function cliente() {
         return $this->BelongsTo('App\Cliente', 'cliente_id');

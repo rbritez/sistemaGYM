@@ -11,9 +11,11 @@
     <link rel="stylesheet" type="text/css" href={{asset("datatables/jquery.dataTables.min.css")}}>
     <link rel="stylesheet" type="text/css" href={{asset("datatables/buttons.dataTables.min.css")}}>
     <link rel="stylesheet" type="text/css" href={{asset("datatables/responsive.dataTables.min.css")}}>
+    {{-- alertify --}}
+    <link rel="stylesheet" href="{{asset("alertify/css/alertify.css")}}">
   <title>Gimnasio - @yield('title')</title>
 </head>
-<body>
+<body >
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <a href="{{route('principal.index')}}"><span class="navbar-brand mb-0 h1">Gimnasio</span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,14 +31,15 @@
         <a class="nav-item nav-link" href="{{ route('ejercicios.index') }}">Ejercicios</a>
         <a class="nav-item nav-link" href="{{ route('maquinas.index') }}">Maquinas</a>
         <a class="nav-item nav-link" href="{{ route('empleados.index') }}">Empleados</a>
-        <a class="nav-item nav-link" href="{{ route('productos.index') }}">Productos</a>
-        <a class="nav-item nav-link" href="{{ route('proveedores.index') }}">Proveedores</a>
-        <a class="nav-item nav-link" href="{{ route('compras.index') }}">Compras</a>
+        {{-- <a class="nav-item nav-link" href="{{ route('productos.index') }}">Productos</a> --}}
+        {{-- <a class="nav-item nav-link" href="{{ route('proveedores.index') }}">Proveedores</a>
+        <a class="nav-item nav-link" href="{{ route('compras.index') }}">Compras</a> --}}
 
       </div>
     </div>
   </nav>
   <div class="container" style="padding-top: 16px;">
+    @include('alertify::alertify')
     @yield('content')
   </div>
 </body>
@@ -52,7 +55,9 @@
  <script src={{asset("datatables/jszip.min.js")}}></script>
  <script src={{asset("datatables/pdfmake.min.js")}}></script>
  <script src={{asset("datatables/vfs_fonts.js")}}></script>
-
+{{-- alertify --}}
+  <script src={{asset("alertify/js/alertify.js")}}></script>
+  
 {{-- charts --}}
 <script src="{{asset("Chart-2.9.3/Chart.min.js")}}"></script>
 <script src="{{asset("Chart-2.9.3/Chart.bundle.min.js")}}"></script>
