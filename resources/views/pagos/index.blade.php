@@ -5,11 +5,10 @@
 @section('content')
 <h1>Pagos</h1>
 <hr>
-<form action="{{ route('pagos.store') }}" method="post">
+<form action="{{ route('pagos.store') }}" class="form" method="post">
   @csrf
-  <div class="form-group">
     <div class="row">
-      <div class="col-lg">
+      <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="input-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Cliente</span>
@@ -22,34 +21,61 @@
           </select>
         </div>
       </div>
-      <div class="col-lg">
+      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">Plan</span>
             </div>
-            <select class="form-control" name="plan_id" id='plan_id' required>
+            <select class="form-control selectpicker" data-live-search="true" name="plan_id" id='plan_id' required>
               <option value="">Seleccionar...</option>
               @foreach($planes as $plan)
-              <option value="{{ $plan->id }}">{{ $plan->descripcion }}</option>
+                @if ($plan->estado != 0)
+                <option value="{{ $plan->id }}">{{ $plan->descripcion }}</option>  
+                @endif
               @endforeach
             </select>
             <input type="hidden" name="cant_meses" id="cant_meses">
           </div>
         </div>
-      <div class="col-lg-4">
+        {{-- saldo --}}
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Saldo $</span>
+              </div>
+              <input type="number" class="form-control" name="saldo" id='saldo' min="0" readonly>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6" style="position:relative;top:-5px">
+            <label for="" id="labelbox" style="display:none">¿Usar Saldo?<input type="checkbox" style="position:relative;top:0px;right:-35px;width:18px; height:18px" class="form-control" name="usarSaldo" id="usarSaldo" onchange="cambiarValor()"></label>
+            <label for="" id="labelsinbox">No hay Saldo para usar</label>  
+          </div>
+          <div class="col-lg-3 col-sm-6 col-md-3">
+              <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Usar $</span>
+                  </div>
+                <input type="numer" class="form-control" name="saldoUsado" id="saldoUsado" onchange="cambiarmonto()" readonly>
+                <input type="hidden" id="saldoinicial">
+              </div>
+          </div>
+         
+        {{-- end saldo --}}
+      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
         <div class="input-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Cobrar $</span>
           </div>
-          <input type="number" name="pago" id="pago" value="00.00">
+          <input type="number" name="pago" class="form-control" id="pago" min="0" value="00.00">
+          <input type="hidden" name="montoPlan" id="montoinicial" >
           <div class="input-group-append">
             <button class="btn btn-primary" type="submit">Cobrar</button>
           </div>
         </div>
       </div>
     </div>
-  </div>
 </form>
+<br>
 <table class="table" id="tablalistado">
   <thead>
     <tr>
@@ -58,6 +84,7 @@
       <th>Plan</th>
       <th>Monto</th>
       <th>Fecha Pago</th>
+      <th>Accion</th>
       {{-- <th>Empleado</th> --}}
     </tr>
   </thead>
@@ -68,13 +95,17 @@
         {{-- <td><a href="{{ route('inscripciones.show', $pago->cliente->inscripcion->id) }}">{{$pago->cliente->persona->apellido }} {{ $pago->cliente->persona->nombre }}</a></td> --}}
         <td style="text-transform:capitalize"><a href="">{{$pago->cliente->persona->apellido }} {{ $pago->cliente->persona->nombre }}</a></td>
         <td>{{ $pago->plan->descripcion }}</td>
-        <td>${{ $pago->monto }}</td>
+        <td>${{ $pago->total }}</td>
         <td>{{ $pago->fecha }}</td>
+      <td><a href="{{route('pagos.pagoPDF',$pago->id)}}" target="_blank" class="btn btn-danger">Imprimir</a></td>
         {{-- <td style="text-transform:capitalize"> {{ $pago->empleado->persona->apellido }} {{ $pago->empleado->persona->nombre }}</td> --}}
       </tr>
     @endforeach
   </tbody>
 </table>
+<br>
+<hr>
+<br>
 @endsection
 @section('js')
 <script type="text/javascript">
@@ -83,6 +114,30 @@
     $("#cliente_id").change(ultimoplan);
     $("#plan_id").change(precio);
   }
+  function cambiarValor(){
+    monto = parseFloat($("#montoinicial").val());
+    saldo = parseFloat($("#saldo").val());
+    saldoinicial= parseFloat($("#saldoinicial").val());
+    if($("#usarSaldo").prop('checked')){
+      $("#saldoUsado").attr('readonly',false);
+      maxsaldo();
+    }else{
+      $("#saldoUsado").attr('readonly',true);
+    }
+
+  }
+        // -------------- cambiar el max del input saldoUsado ----------------------------
+  function maxsaldo(){
+    monto = parseFloat($("#montoinicial").val());
+    saldoinicial= parseFloat($("#saldoinicial").val());
+      if(monto < saldoinicial){
+        $("#saldoUsado").attr('max',monto);
+      }else{
+        console.log('maximo');
+        $("#saldoUsado").attr('max',saldoinicial);
+      }
+  }
+  // ---------------------- Una vez Seleccionado el cliente se carga el ultimo plan que tuvo activo-------------------------------------------
   function ultimoplan(){
     var idcliente =  $("#cliente_id").val();
     var plan = $("#plan_id").val();
@@ -104,14 +159,24 @@
           $('#plan_id option[value='+res+']').attr("selected",true);
           $("#cant_meses").val(cant_meses);
           $("#pago").val(precio);
+          $("#montoinicial").val(precio);
+          $("#saldo").val(r[0]['saldo']);
+          $("#saldoinicial").val(r[0]['saldo']);
+          if($("#saldo").val() == "0.00"){
+            $("#labelbox").hide();
+            $("#labelsinbox").show();
+          }else{
+            $("#labelbox").show();
+            $("#labelsinbox").hide();
+          }
         }else{
           console.log('nada')
         }
     })
   }
+  // -------------------------------------------- Se activa cuando se cambia el plan, esta funcion trae el precio del plan-------------------
   function precio(){
     var idplan =  $("#plan_id").val();
-
     $.post("{{route('clientes.precio')}}",{
       headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
       "_token":$("meta[name='csrf-token']").attr("content"),
@@ -120,8 +185,11 @@
         $("#pago").val();
         $("#cant_meses").val(r.cant_meses);
         $("#pago").val(r.precio);
+        $("#montoinicial").val(r.precio);
         $("#cant_meses").val(r.cant_meses);
+        maxsaldo();
     })
+
   }
   function listar() {
     tabla = $('#tablalistado').dataTable({ //mediante la propiedad datatable enviamos valores

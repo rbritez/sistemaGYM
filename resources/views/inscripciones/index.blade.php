@@ -25,7 +25,7 @@
       <tr>
       <td>{{ $ins->cliente->persona->apellido }} {{$ins->cliente->persona->nombre}}</td>
         <td>{{ $ins->plan->descripcion }} </td>
-        <td>{{ $ins->rutina->descripcion }} <button type="button" class="btn btn-warning float-right" data-toggle="modal" data-target="#modal_updateRutinaInscripcion" onclick="traerinscripcion({{$ins->id}})">Cambiar</button></td>
+      <td>{{ $ins->rutina->descripcion }} <button type="button" class="btn btn-warning float-right" data-toggle="modal" data-target="#modal_updateRutinaInscripcion" onclick="traerinscripcion({{$ins->id}})">Cambiar</button> <a href="{{route('rutinas.rutinaPDF',$ins->rutina->id)}}" style="color:white;" target="_blank" class="btn btn-danger float-right" >Ver</a> </td>
         <td><a  class="btn btn-success" href="{{ route('fichamedica.mostrarFichaMedica', $ins->cliente->id) }}">Ver Ficha </font></a></td>
         <td>
           <a href="{{ route('inscripciones.show', $ins->id) }}"><button class="btn btn-warning">Editar</button></a>  <a href="{{route('inscripciones.reciboPDF', $ins->id)}}" target="_blank"><button type="button" class="btn btn-danger">Imprimir</button></a>

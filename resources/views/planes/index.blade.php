@@ -95,6 +95,9 @@
       @endforeach
     </tbody>
   </table>
+  <br>
+<hr>
+<br>
 @endsection
 @section('js')
 

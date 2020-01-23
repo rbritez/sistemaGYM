@@ -38,6 +38,8 @@ Route::resources([
 Route::get('empleados/ingresos/{id}','EmpleadoControlador@ingresos')->name('empleados.ingresos');
 Route::get('planes/show/{id}','PlanControlador@show')->name('planes.show');
 Route::get('rutinas/rutinaPDF/{id}','RutinaControlador@rutinaPDF')->name('rutinas.rutinaPDF');
+Route::get('pagos/pagoPDF/{id}','PagoControlador@pagoPDF')->name('pagos.pagoPDF');
+Route::get('rutinas/rutinaCliente/{id}','RutinaControlador@rutinaCliente')->name('rutinas.rutinaCliente');
 Route::post('empleados/destroy/{id}','EmpleadoControlador@destroy')->name('empleadodestroy');
 Route::get('clientes/inactivosPDF/{id}','ClientesControlador@inactivosPDF')->name('clientes.inactivosPDF');
 Route::post('inscripciones/traerinscripcion','InscripcionControlador@traerinscripcion')->name('inscripciones.traerinscripcion');

@@ -126,6 +126,9 @@
       </table>
     </div>
 </div>
+<br>
+<hr>
+<br>
 @endsection
 @section('js')
 <script>

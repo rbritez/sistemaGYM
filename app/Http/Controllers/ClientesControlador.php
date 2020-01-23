@@ -8,6 +8,7 @@ use App\Cliente;
 use App\Plan;
 use App\Plan_Cliente;
 use App\Pago;
+use App\Saldo;
 use PDF;
 
 class ClientesControlador extends Controller
@@ -102,14 +103,16 @@ class ClientesControlador extends Controller
     
     public function ultimoPlan(Request $request)
     {
-        $ultimoPlan = Plan_Cliente::join('planes','planes.id','=','planes_cliente.plan_id')->select('planes_cliente.plan_id','planes.precio')->where('cliente_id','=',$request->id_cliente)->orderBy('fecha_fin','DESC')->limit('1')->get();
+        $ultimoPlan = Plan_Cliente::join('planes','planes.id','=','planes_cliente.plan_id')->select('cliente_id','planes_cliente.plan_id','planes.precio')->where('cliente_id','=',$request->id_cliente)->orderBy('planes_cliente.id','DESC')->limit('1')->get();
         $plan = Plan::find($ultimoPlan[0]->plan_id);
+        $saldo = Saldo::where('cliente_id',$ultimoPlan[0]->cliente_id)->get();
         $array= array();
         foreach($ultimoPlan as $ut){
             $array[]=array(
                 "plan_id"=> $ut->plan_id,
                 "precio"=> $ut->precio,
                 "cant_meses"=>$plan->cant_meses,
+                "saldo"=>$saldo[0]->monto_saldo,
             );
         }
         return $array;

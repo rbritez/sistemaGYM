@@ -8,7 +8,7 @@ class Pago extends Model
 {
     protected $table = 'pagos';
     public $timestamps = false;
-    protected $fillable = ['cliente_id', 'empleado_id', 'plan_id', 'monto','fecha','estado'];
+    protected $fillable = ['cliente_id', 'empleado_id', 'plan_id', 'monto','saldo_usado','saldo_disp','fecha','total','estado'];
 
     public function cliente() {
         return $this->belongsTo('App\Cliente', 'cliente_id');

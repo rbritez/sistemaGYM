@@ -9,6 +9,9 @@ use App\Empleado;
 use App\Cliente;
 use App\Plan;
 use App\Plan_Cliente;
+use App\NotaCredito;
+use App\Saldo;
+use PDF;
 class PagoControlador extends Controller
 {
     /**
@@ -47,17 +50,35 @@ class PagoControlador extends Controller
      */
     public function store(Request $request)
     {
-       
+        $nuevoSaldo = 0;
+        $saldousado = 0;
+        $total = 0;
+        if($request->usarSaldo == 'on'){
+             $nuevoSaldo = $request->saldo - $request->saldoUsado;
+            
+             $saldo = Saldo::where('cliente_id',$request->cliente_id)->get();
+             $newsaldo = Saldo::find($saldo[0]['id'])->update([
+                 'monto_saldo'=>$nuevoSaldo,
+             ]);
+             $total = $request->montoPlan - $request->saldoUsado;
+        }else{
+            $total = $request->pago;
+            $nuevoSaldo = $request->saldo;
+        }
+        
         Plan_Cliente::where('cliente_id',$request->cliente_id)->update([
             'estado'=>'0',
         ]);
-
         $fechaActual = date("Y-m-d");
+
         Pago::create([
             'cliente_id' => $request->cliente_id,
             'empleado_id' => 2,
             'plan_id' => $request->plan_id,
-            'monto' => $request->pago,
+            'monto' => $request->montoPlan,
+            'saldo_usado'=>$request->saldoUsado,
+            'saldo_disp'=>$nuevoSaldo,
+            'total'=>$total,
         ]);
         // $fechaVencimiento = date('Y-m-d',strtotime($fechaActual."+ $request->cant_meses month" ));
   
@@ -67,6 +88,17 @@ class PagoControlador extends Controller
             'inscripciones' => Inscripcion::all(),
             'clientes' => Cliente::all()
         ]);
+    }
+    public function pagoPDF($id){
+        $pago = Pago::find($id);
+        $planCliente = Plan_Cliente::where([ ['cliente_id',$pago->cliente_id],['plan_id',$pago->plan_id]])->orderBy('id','desc')->take(1)->get();
+        $notaCredito= NotaCredito::where('pago_id',$pago->id)->get();
+        if( isset($notaCredito) && !empty($notaCredito->all() )){
+            return redirect()->route('inscripciones.notacreditoPDF',$pago->id);
+        }
+        $saldo = Saldo::where('cliente_id',$pago->cliente_id)->get();
+        $pdf = PDF::loadView('pagos.pagoPDF', ['pago'=>$pago,'ultimoPlan'=>$planCliente,'saldo'=>$saldo[0]]);
+        return $pdf->stream('recibo.pdf');
     }
 
     /**

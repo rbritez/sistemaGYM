@@ -6,8 +6,8 @@
 <h1>Clientes</h1>
 <hr>
 <div>
-  <button class="btn btn-primary" data-toggle="modal" data-target="#modal_newCliente">Nuevo Cliente</button> 
-<a href="{{route('clientes.inactivosPDF',1)}}" target="_blank" ><button class="btn btn-info">Clientes Inactivos</button></a>
+  {{-- <button class="btn btn-primary" data-toggle="modal" data-target="#modal_newCliente">Nuevo Cliente</button>  --}}
+<a href="{{route('clientes.inactivosPDF',1)}}" target="_blank" ><button class="btn btn-danger">Clientes Inactivos</button></a>
 </div>
 <br>
 <div class="table-responsive">
@@ -15,12 +15,9 @@
         <thead align="center">
           <tr>
               <th>Acciones</th>
-              <th>Apellido y Nombre</th>
-              <th>Cumpleaños</th>
               <th>Celular</th>
               <th>Ultimo Plan</th>
               <th>Fin Ultimo Plan</th>
-              <th>Fecha de Ingreso</th>
               <th>Estado</th>
           </tr>
         </thead>
@@ -29,12 +26,10 @@
             <tr>
                   <td>
                       <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal_updateCliente" onclick="mostrar({{$cliente->id}})">Editar</button>
-                      <a class="btn btn-info" href="{{ route('planes.show', $cliente->id) }}">Planes</a>
+                      <a class="btn btn-info" href="{{ route('planes.show', $cliente->id) }}">Ver Más...</a>
                       <a href="{{ route('fichamedica.mostrarFichaMedica', $cliente->id)}}" class="btn btn-secondary">Ficha Medica</a>
                   </td>
                   <td>{{ $cliente->persona->apellido }} {{$cliente->persona->nombre}}</td>
-                  <td> @if($cliente->persona->fecha_nac) {{date("d-m-Y",strtotime($cliente->persona->fecha_nac))}}@endif</td>
-                  <td>{{$cliente->persona->celular}}</td>
                    <td>
                       <?php
                           $val="";
@@ -54,7 +49,7 @@
                           echo $date;
                       ?>
                      </td>
-                  <td>{{ date("d-m-Y",strtotime($cliente->fecha_ingreso))}}</td>
+      
                   @if($cliente->estado == '1')
                   <td><b style="color:aliceblue;background-color:darkgreen;padding:5px 11px;border-radius:5px">Activo</b></td>
                     @else

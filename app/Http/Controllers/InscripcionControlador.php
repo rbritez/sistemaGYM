@@ -95,8 +95,10 @@ class InscripcionControlador extends Controller
             'cliente_id'=>$cliente->id,
             'empleado_id'=>'5',
             'plan_id'=>$request->plan_id,
-            'monto'=>$request->input('monto'),
-            'fecha'=>$hoy,
+            'monto'=>$request->monto,
+            'saldo_usado'=>0,
+            'saldo_disp'=>0,
+            'total'=>$request->input('monto'),
         ]);
 
         // $fechaVencimiento = date('Y-m-d',strtotime($fechaActual."+ $request->cant_meses month" ));
@@ -138,6 +140,7 @@ class InscripcionControlador extends Controller
     public function reciboPDF($id){
         $inscripcion = Inscripcion::find($id);
         $pagoCliente = Pago::where('cliente_id',$inscripcion->cliente_id)->orderBy('id','desc')->take(1)->get();
+        //verificamos si pertenece a una nota de credito
         $notaCredito= NotaCredito::where('pago_id',$pagoCliente[0]['id'])->get();
             if( isset($notaCredito) && !empty($notaCredito->all() )){
                 return redirect()->route('inscripciones.notacreditoPDF',$pagoCliente[0]['id']);
@@ -197,7 +200,6 @@ class InscripcionControlador extends Controller
      */
     public function update(Request $request, $id)
     {
-        
 
         $mensaje=1;
         $fechaActual = date("Y-m-d");
@@ -236,52 +238,60 @@ class InscripcionControlador extends Controller
             }
             return redirect()->route('inscripciones.index');
         }else{
+            $montosaldoUsado = 0;
+            $saldodisponible = 0;
                 //MODIFICAMOS EL SALDO
                 if($request->usarSaldo =="on"){
                     // dd($request->usarSaldo);
+                    $montosaldoUsado = $request->saldoUsado;
                     $saldo = Saldo::where('cliente_id',$inscripcion->cliente_id)->get();
-                    $nuevoSaldo = $saldo[0]['monto_saldo'] - $request->monto_saldo;
+                    $saldodisponible = $request->monto_saldo - $montosaldoUsado;
                     
                     $newsaldo = Saldo::find($saldo[0]['id'])->update([
-                        'monto_saldo'=>$nuevoSaldo,
+                        'monto_saldo'=>$saldodisponible,
                     ]);
+                }else{
+                    $saldodisponible= $request->monto_saldo;
                 }
-            //anulamos el pago
-            $pagoANT = Pago::where([['cliente_id',$inscripcion->cliente_id],['plan_id',$inscripcion->plan_id]])->orderBy('id','desc')->take(1)->get();
-            // $pagoAnular = Pago::find($pagoANT[0]['id'])->update([
-            //     'estado'=> '0',
-            // ]);
+       
             //anulamos el plan
-            $planANT = Plan_Cliente::where([['cliente_id',$inscripcion->cliente_id],['plan_id',$inscripcion->plan_id]])->orderBy('id','desc')->take(1)->get();
-            $pagoAnular = Plan_Cliente::find($planANT[0]['id'])->update([
+            $planANT = Plan_Cliente::where([['cliente_id',$inscripcion->cliente_id],['plan_id',$request->planAnterior],['estado','1']])->orderBy('id','desc')->take(1)->get();
+       
+            $planAnular = Plan_Cliente::find($planANT[0]['id'])->update([
                 'estado'=> '0',
             ]);
-            //EDITAMOS LOS DATOS DEL CLIENTE
-            $inscripcion->cliente->persona->update([
-                'apellido' => $request->input('apellido'),
-                'nombre' => $request->input('nombre'),
-                'fecha_nac' => $request->input('fecha_nac'),
-                'celular' => $request->input('celular'),
-                //'email'=>$request->email,
-                // 'dni'=>$request->dni,
-                // 'sexo'=>$request->sexo,
-                // 'barrio'=>$request->barrio,
-                // 'calle'=>$request->calle,
-                // 'altura'=>$request->altura,
-                // 'nro_dpto'=>$request->nro_dpto,
-                // 'nro_piso'=>$request->nro_piso,
-            ]);
+            $montoActual = Plan::find($request->plan_id);
+            //anulamos el pago
+            $pagoANT = Pago::where([['cliente_id',$inscripcion->cliente_id],['plan_id',$inscripcion->plan_id]])->orderBy('id','desc')->take(1)->get();
             //creamos un nuevo pago,
             $pago = Pago::create([
                 'cliente_id'=>$inscripcion->cliente_id,
                 'empleado_id'=>'5',
                 'plan_id'=>$request->plan_id,
-                'monto'=>$request->input('monto'),
-                'fecha'=>$fechaActual,
+                'monto'=>$request->montoPlan, //valor del plan
+                'saldo_usado'=>$montosaldoUsado,
+                'saldo_disp'=>$saldodisponible,
+                'total'=>$request->monto,//total con el descuento del saldo
             ]);
+            //EDITAMOS LOS DATOS DEL CLIENTE
+            $inscripcion->cliente->persona->update([
+                'apellido' => $request->input('apellido'),
+                'nombre' => $request->input('nombre'),
+                'dni'=>$request->dni,
+                'fecha_nac' => $request->input('fecha_nac'),
+                'celular' => $request->input('celular'),
+                'email'=>$request->email,
+                'sexo'=>$request->sexo,
+                'barrio'=>$request->barrio,
+                'calle'=>$request->calle,
+                'altura'=>$request->altura,
+                'nro_dpto'=>$request->nro_dpto,
+                'nro_piso'=>$request->nro_piso,
+            ]);
+
             //CREAMOS LA NOTA DE CREDTIO
             $planACT = Plan_Cliente::where([['cliente_id',$inscripcion->cliente_id],['plan_id',$inscripcion->plan_id]])->orderBy('id','desc')->take(1)->get();
-            $montoActual = Plan::find($request->plan_id);
+
             $notaCredito = NotaCredito::create([
                 'pago_id'=>$pago->id,
                 'planclienteANT_id'=>$planANT[0]['id'],
@@ -289,6 +299,8 @@ class InscripcionControlador extends Controller
                 'planACT_id'=>$planACT[0]['id'],
                 'monto_pACT'=>$montoActual->precio,
                 'monto'=>$request->monto,
+                'saldo_usado'=>$montosaldoUsado,
+                'saldo_disp'=>$saldodisponible,
                 'fecha'=>$fechaActual,
             ]);
             //EDITAMOS LA RUTINA DEL PLAN00

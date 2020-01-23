@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Nota de Credito PDF</title>
+    <title>Clientes Inactivos PDF</title>
      {{-- bootstraop 4.0.0 --}}
   <link rel="stylesheet" href={{asset("bootstrap/css/bootstrap.min.css")}}>
 </head>
@@ -23,7 +23,7 @@
             </div>
         </div>
     </div>
-<div id="#titulo"><b class="texto">Comprobante de Plan</b> <small class="fecha">Fecha: {{date('d/m/Y')}}</small> <small class="comprobante">Nota de Crédito Nro: 00{{$notaCredito->id}} </small> </div>
+<div id="#titulo"><b class="texto">Comprobante de Plan</b> <small class="fecha">Fecha: {{date('d/m/Y')}}</small> <small class="comprobante">Comprobante Nro: 00{{$ultimoPlan['0']['id']}} </small> </div>
     <br>
         
             <table class="table table-striped" align="center">
@@ -49,92 +49,77 @@
                     </tbody>
             </table>
            <br>
-           <table class="table table-striped table-danger" align="center">
+           <table class="table table-striped" align="center" style="width:100%">
             <thead>
-                <tr style="background-color:rgba(92,164,255, 0.2)"><th colspan="4"> DATOS DEL PLAN CANCELADO</th></tr>
-                <tr>    
-                    <th>Plan</th>
-                    <th>Inicio del Plan</th>
-                    <th>Fin del Plan</th>
-                    <th>Monto</th>
-                </tr>
-            </thead>
-            <tbody>
-                    <tr>
-                        <td>{{$notaCredito->planclienteANT->plan->descripcion}}</td>
-                        <td>{{date('d/m/Y',strtotime($notaCredito->planclienteANT->fecha_inicio))}}</td>
-                        <td>{{date('d/m/Y',strtotime($notaCredito->planclienteANT->fecha_fin))}}</td>
-                        <td>$ {{$notaCredito->monto_pANT}}</td>
-                    </tr>
-            </tbody>
-           </table>
-           <br>
-           <table class="table table-striped" align="center">
-            <thead>
-                <tr style="background-color:rgba(92,164,255, 0.2)"><th colspan="4"> DATOS DEL PLAN VIGENTE</th></tr>
-                <tr>    
-                    <th>Plan</th>
-                    <th>Inicio del Plan</th>
-                    <th>Fin del Plan</th>
-                    <th>Monto</th>
-                </tr>
-            </thead>
-            <tbody>
-                    <tr>
-                        <td>{{$notaCredito->planclienteACT->plan->descripcion}}</td>
-                        <td>{{date('d/m/y',strtotime($notaCredito->planclienteACT->fecha_inicio))}}</td>
-                        <td>{{ date('d/m/Y',strtotime($notaCredito->planclienteACT->fecha_fin)) }}</td>
-                        <td>$ {{$notaCredito->monto_pACT}}</td>
-                    </tr>
-            </tbody>
-           </table>
-           <table class="table table-striped table-info">
-            <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td style="text-align:right">MONTO POR DIFERENCIA:</td>
-                        <td style="text-align:center;width:112px">$ {{$notaCredito->monto }}</td>
-                    </tr>
-            </tbody>
-           </table>
-           @if ($notaCredito->saldo_usado > 0)
                 
-            <table class="table table-striped table-success">
+                <tr style="background-color:rgba(92,164,255, 0.2)"><th colspan="5"> DATOS DEL PLAN</th></tr>
+                <tr>    
+                    <th>Estado</th>
+                    <th width="130">Plan Contratado</th>
+                    <th>Inicio Plan</th>
+                    <th>Fin Plan</th>
+                    <th>Monto</th>
+                </tr>
+            </thead>
+            <tbody>
+  
+                    @foreach ($ultimoPlan as $item )
+                        <tr>
+                            @if ($item->estado =="0")
+                                    @if ($item->fecha_fin > date('Y-m-d'))
+                                        <td class="text-danger"> ANULADO</td>                                                        
+                                    @else
+                                        <td class="text-danger"> CULMINADO</td>                       
+                                    @endif
+                                @else
+                                    <td class="text-success"> ACTIVO</td>
+                            @endif
+                            <td>{{$item->plan->descripcion}}</td>
+                            <td>{{ date('d/m/Y',strtotime($item->fecha_inicio))}}</td>
+                            <td>{{ date('d/m/Y',strtotime($item->fecha_fin))}}</td>
+                            <td>$ {{$pago->monto}}</td>
+                    </tr>
+                    @endforeach
+            </tbody>
+           </table>
+           @if ($pago->saldo_usado <> "0.00")
+           <table class="table table-striped table-success">
                 <tbody>
                         <tr>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td style="text-align:right">SALDO UTILIZADO:</td>
-                            <td style="text-align:center;width:112px">$ {{$notaCredito->saldo_usado}}</td>
+                            <td style="text-align:center;width:112px">$ {{$pago->saldo_usado}}</td>
                         </tr>
                 </tbody>
-            </table>
+               </table>    
+               <table class="table table-striped table-success">
+                    <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="text-align:right">SALDO DISPONIBLE:</td>
+                                <td style="text-align:center;width:112px">$ {{$pago->saldo_disp}}</td>
+                            </tr>
+                    </tbody>
+                   </table>
+           @else
+               
            @endif
-            <table class="table table-striped table-success">
-                <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td style="text-align:right">TOTAL A PAGAR:</td>
-                            <td style="text-align:center;width:112px">$ {{$notaCredito->saldo_usado - $notaCredito->saldo_usado}}</td>
-                        </tr>
-                </tbody>
-            </table>
-            <table class="table table-striped table-success">
-                <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td style="text-align:right">SALDO DISPONIBLE:</td>
-                            <td style="text-align:center;width:112px">$ {{$saldo->monto_saldo}}</td>
-                        </tr>
-                </tbody>
-            </table>
+           
+           <table class="table table-striped table-info">
+            <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align:right">MONTO TOTAL:</td>
+                        <td style="text-align:center;width:112px">$ {{$pago->total}}</td>
+                    </tr>
+            </tbody>
+           </table>
     </div>
    
 </body>

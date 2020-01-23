@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Plan;
 use App\Plan_Cliente;
 use App\Cliente;
-
+use App\Rutina_Cliente;
+use App\Saldo;
 class PlanControlador extends Controller
 {
     /**
@@ -54,8 +55,10 @@ class PlanControlador extends Controller
     public function show($id)
     {
         $cliente = Cliente::find($id);
-        $planes = Plan_Cliente::where('cliente_id',$id)->paginate(5);
-        return view('planes.show',['cliente'=>$cliente,'planes'=>$planes]);
+        $planes = Plan_Cliente::where('cliente_id',$id)->orderby('fecha_fin','desc')->get();
+        $rutinaCliente = Rutina_Cliente::where('cliente_id',$id)->get();
+        $saldo = Saldo::where('cliente_id',$id)->first();
+        return view('planes.show',['cliente'=>$cliente,'planes'=>$planes,'rutinas'=>$rutinaCliente,'saldo'=>$saldo]);
     }
 
     /**

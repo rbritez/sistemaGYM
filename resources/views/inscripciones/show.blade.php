@@ -93,7 +93,7 @@
                     </div>
   
         <div class="col-sm-12"><h3>Seleccione Rutina y Plan</h3></div>
-        <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="col-lg-6 col-md-6 col-sm-6">
           <div class="form-group">
             <label>Rutina</label>
             <select name="rutina_id" class="form-control" value="{{$inscripcion->rutina_id}}">
@@ -108,7 +108,7 @@
             </select>
           </div> 
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="col-lg-6 col-md-6 col-sm-6">
           <div class="form-group">
             <label>Plan</label>
           <select name="plan_id" id="plan_id" class="form-control" onclick="cargarmonto()">
@@ -142,16 +142,28 @@
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6">
           <div class="form-group">
-            <label id="labelsaldoS">¿Usar Saldo?   <input class="checkbox-inline" style="position:relative;top:4px;width:18px; height:18px;" type="checkbox" name="usarSaldo" id="usarSaldo"> </label>
+            <label id="labelsaldoS">¿Usar Saldo?   <input class="checkbox-inline" style="position:relative;top:4px;width:18px; height:18px;" type="checkbox" name="usarSaldo" id="usarSaldo" readonly> </label>
             <label id="labelsaldoH" style="display:none">¡Tu saldo para tu Proximo Plan ha Aumentado!</label> 
+              <div class="input-group">
+                  <div class="input-group-prepend">
+                    <button class="btn btn-success" " type="button" disabled>USAR: $</button>
+                  </div>
+                  <input type="number" id="saldoUsado" name="saldoUsado" class="form-control" min="0" value="0" readonly>
+                  <input type="hidden" name="" id="precio_Primer_plan">
+                  <input type="hidden" name="montoPlan" id="precio_plan">
+                  <input type="hidden" name="cant_meses" id="cant_meses" value="">
+                  <input type="hidden" name="planAnterior" id="planAnterior" value="">
+                </div>
+          </div>
+        </div>  
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="form-group">
+            <label id="labelsaldoS">&nbsp; </label>
               <div class="input-group">
                   <div class="input-group-prepend">
                     <button class="btn btn-info" type="button" disabled>TOTAL: $</button>
                   </div>
                   <input type="number" name="monto" id="monto" class="form-control" value="">
-                  <input type="hidden" name="" id="precio_Primer_plan">
-                  <input type="hidden" name="" id="precio_plan">
-                  <input type="hidden" name="cant_meses" id="cant_meses" value="">
                 </div>
           </div>
         </div>  
@@ -203,7 +215,7 @@
         $("#usarSaldo").change(cambiarmonto);
         $("#monto_saldo").change(cambiarvalor);
         // $("#monto").change(nuevototal);
-      };
+      }
       function salir(){
         window.location.href ="{{route('inscripciones.index')}}";
       }
@@ -231,27 +243,38 @@
         'id_plan': idplan},
         function(rr){
           $("#precio_Primer_plan").val(rr.precio);
+          $("#planAnterior").val(idplan);
       })
       }
       function cambiarmonto(){
-        var check = $("#usarSaldo");
-        var saldo = parseFloat($("#monto_saldo").val());
-        var saldoInicial =parseFloat($("#monto_saldo_inicial").val());
+        var check = $("#usarSaldo"); //input check
+        var saldo = parseFloat($("#monto_saldo").val()); //monto del saldo
+        var saldoInicial =parseFloat($("#monto_saldo_inicial").val()); //saldo inicial
         var montoPlan = parseFloat($("#precio_plan").val());
         var montoPrimerPlan = parseFloat($("#precio_Primer_plan").val());
         var nuevomontoPlan = montoPlan-montoPrimerPlan;
         if (check.prop('checked')) {
-          $("#monto_saldo").removeAttr('readonly');
-            $("#monto").val(nuevomontoPlan - saldo);
+          var montoaPagar = parseFloat($("#monto").val());
+          if(saldo >= montoaPagar){
+            $("#saldoUsado").prop('max',montoaPagar);
+          }else{
+            $("#saldoUsado").prop('max',saldo);
+          }
+          $("#saldoUsado").removeAttr('readonly');
+          
+
         } else {
-          $("#monto").val(nuevomontoPlan);
-          $("#monto_saldo").val(saldoInicial).attr("readonly",true);
+          var montoaPagar = parseFloat($("#monto").val());
+          $("#monto").val(montoaPagar);
+          $("#saldoUsado").val(0).attr("readonly",true);
+
         }
       }
       
       function cargarmonto(){
         var montoPlanAnterior =parseFloat($("#precio_Primer_plan").val());
         var montosaldoinicial = parseFloat($("#monto_saldo_inicial").val());
+        var check = $("#usarSaldo");
       var idplan =  $("#plan_id").val();
         $.post("{{route('clientes.precio')}}",{
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -265,14 +288,15 @@
               $("#labelsaldoH").hide();
               $("#monto_saldo").val(montosaldoinicial);
               $("#monto").val(r.precio - montoPlanAnterior);
+              if (check.prop('checked')) { cambiarmonto()}
             }else if(montoPlanAnterior > r.precio){
               $("#labelsaldoS").hide();
               $("#labelsaldoH").html("<div style='font-size:11px;'>Tu saldo Aumento para tu Proximo Plan<div>");
-              
               $("#labelsaldoH").show();
+              $("#monto").val('0');
               nuevosaldo = montosaldoinicial+ (montoPlanAnterior - r.precio);
               $("#monto_saldo").val(nuevosaldo);
-              $("#monto").val('0');
+
             }else{
               $("#monto_saldo").val(montosaldoinicial);
               $("#labelsaldoS").hide();

@@ -9,6 +9,8 @@ use App\SectorCorpxEjercicio;
 use App\rutinaxdias;
 use App\diaxejercicios;
 use App\Sector_Corporal;
+use App\Cliente;
+use App\Rutina_Cliente;
 use PDF;
 // use Barryvdh\DomPDF\Facade as PDF;
 // use Dompdf\Dompdf;
@@ -186,7 +188,13 @@ class RutinaControlador extends Controller
         }
        
     }
+    public function rutinaCliente($id){
 
+        $cliente = Cliente::find($id);
+        $rutinas = Rutina_Cliente::where('cliente_id',$id)->get();
+
+        return view('rutinas.rutinaCliente',['cliente'=>$cliente,'rutinas'=>$rutinas]);
+    }
     /**
      * Display the specified resource.
      *
