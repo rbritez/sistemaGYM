@@ -37,7 +37,7 @@
             </td>
             <td style="text-transform:capitalize">{{$empleado->persona->apellido}} {{ $empleado->persona->nombre }}</td>
             <td>{{ $empleado->persona->dni }}</td>
-            <td>{{ $empleado->persona->domicilio }}</td>
+          <td> @if($empleado->persona->barrio)Barrio {{ $empleado->persona->barrio }} ,@endif @if($empleado->persona->calle)Calle: {{$empleado->persona->calle}},@endif @if($empleado->persona->altura)Nro {{$empleado->persona->altura}},@endif</td>
             @if($empleado->estado == '1')
             <td><b style="color:aliceblue;background-color:darkgreen;padding:5px 11px;border-radius:5px">Activo</b></td>
               @else
@@ -118,7 +118,7 @@
     
     {{-- MODAL NUEVO EMPLEADO --}}
     <div class="modal fade" id="modal_editEmpleadoo"> <!-- modallllllllll-->
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-lg">
           <div class="modal-content"> <!-- div content --> 
               <div class="modal-warning modal-header " style="background-color:#007BFF">
                 <b style="color:white;" id="title_categoria" class="modal-title">NUEVO EMPLEADO</b>
@@ -137,29 +137,62 @@
                                       <input type="hidden" name="cliente_id" id="cliente_id" value="{{ $inscripcion->cliente->id }}" >  --}}
                                </div>
                               <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">NOMBRE</label>
-                                <div class="col-sm-8">
+                                  <div class="col-sm-6">
+                                <label class=" col-form-label">NOMBRE</label>
                                 <input type="text" name="nombre" class="form-control" required>
                                 </div>
-                              </div>
-                              <div class="form-group row">
-                                  <label class="col-sm-4 col-form-label">APELLIDO</label>
-                                  <div class="col-sm-8">
+                         
+                                  <div class="col-sm-6">  
+                                    <label class=" col-form-label">APELLIDO</label>
                                     <input type="text" name="apellido"  class="form-control" required>
                                   </div>
-                              </div>
-                              <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">DNI</label>
-                                <div class="col-sm-8">
+                                  <div class="col-sm-6">
+                                    <label class="col-form-label">DNI</label>
                                     <input type="text" name="dni" class="form-control"  required>
                                 </div>
-                              </div>
-                              <div class="form-group row">
-                                  <label class="col-sm-4 col-form-label">DOMICILIO</label>
-                                  <div class="col-sm-8">
-                                      <input type="text" name="domicilio" class="form-control" required>
-                                  </div>
+                                <div class="col-sm-6">
+                                  <label  class="col-form-label">Celular</label>
+                                  <input type="text" name="celular" class="form-control" placeholder="3704000000" required>
                                 </div>
+                                <div class="col-sm-6">
+                                    <label class="col-form-label">Email</label>
+                                    <input type="email" name="email" class="form-control" placeholder="ejemplo@ejemplo.com">
+                                </div>
+                                <div class="col-sm-6">
+                                  <label class="col-form-label">Sexo</label>
+                                  <select name="sexo" id="sexo" class="form-control" required>
+                                    <option value="">Seleccionar...</option>
+                                    <option value="h">Hombre</option>
+                                    <option value="m">Mujer</option>
+                                  </select>
+                                </div>
+                                <div class="col-sm-6">
+                                  <label class="col-form-label">Barrio</label>
+                                  <input type="text" name="barrio" class="form-control" placeholder="San Martin" >
+                                </div>
+                                <div class="col-sm-6">
+                                  <label class="col-form-label">Calle</label>
+                                  <input type="text" name="calle" class="form-control" placeholder="España">
+                                </div>
+                                  <div class="col-md-4">
+                                      <div class="form-group">
+                                        <label>Altura</label>
+                                        <input type="text" name="altura" class="form-control" placeholder="1532">
+                                      </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                      <div class="form-group">
+                                        <label>Nro Dpto</label>
+                                        <input type="text" name="nro_dpto" class="form-control" placeholder="12A">
+                                      </div>
+                                    </div>
+                                      <div class="col-md-4">
+                                        <div class="form-group">
+                                          <label>Nro Piso</label>
+                                          <input type="text" name="nro_piso" class="form-control" placeholder="2">
+                                        </div>
+                                      </div>
+                                  </div>
                       </div>
                   </div>
               </div>
@@ -202,29 +235,68 @@
                                       <input type="hidden" name="cliente_id" id="cliente_id" value="{{ $inscripcion->cliente->id }}" > --}}
                               </div>
                               <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">NOMBRE</label>
-                                <div class="col-sm-8">
-                                <input type="text" name="nombre" class="form-control" value="{{ $empleado->persona->nombre}}" required>
+                                  <div class="col-sm-6">
+                                <label class=" col-form-label">NOMBRE</label>
+                                <input type="text" name="nombre" class="form-control" value="{{$empleado->persona->nombre}}" required>
                                 </div>
-                              </div>
-                              <div class="form-group row">
-                                  <label class="col-sm-4 col-form-label">APELLIDO</label>
-                                  <div class="col-sm-8">
-                                    <input type="text" name="apellido"  class="form-control" value="{{ $empleado->persona->apellido}}" required>
+                         
+                                  <div class="col-sm-6">  
+                                    <label class=" col-form-label">APELLIDO</label>
+                                    <input type="text" name="apellido"  class="form-control" value="{{$empleado->persona->apellido}}" required>
                                   </div>
-                              </div>
-                              <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">DNI</label>
-                                <div class="col-sm-8">
-                                    <input type="text" name="dni" class="form-control"  value="{{ $empleado->persona->dni }}" required>
+                                  <div class="col-sm-6">
+                                    <label class="col-form-label">DNI</label>
+                                    <input type="text" name="dni" class="form-control" value="{{$empleado->persona->dni}}"  required>
                                 </div>
-                              </div>
-                              <div class="form-group row">
-                                  <label class="col-sm-4 col-form-label">DOMICILIO</label>
-                                  <div class="col-sm-8">
-                                      <input type="text" name="domicilio" class="form-control" value="{{ $empleado->persona->domicilio }}" required>
+                                <div class="col-sm-6">
+                                  <label  class="col-form-label">Celular</label>
+                                  <input type="text" name="celular" class="form-control" value="{{$empleado->persona->celular}}" placeholder="3704000000" required>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="col-form-label">Email</label>
+                                    <input type="email" name="email" class="form-control" value="{{$empleado->persona->email}}" placeholder="ejemplo@ejemplo.com">
+                                </div>
+                                <div class="col-sm-6">
+                                  <label class="col-form-label">Sexo</label>
+                                  <select name="sexo" id="sexo" class="form-control" required>
+                                    @if($empleado->persona->sexo =='m'){
+                                      <option value="m" selected>Mujer</option>
+                                      <option value="h">Hombre</option>
+                                    @else
+                                    <option value="m">Mujer</option>
+                                    <option value="h" selected>Hombre</option>
+                                    @endif
+                                    
+                                    
+                                  </select>
+                                </div>
+                                <div class="col-sm-6">
+                                  <label class="col-form-label">Barrio</label>
+                                  <input type="text" name="barrio" class="form-control" value="{{$empleado->persona->barrio}}" placeholder="San Martin" >
+                                </div>
+                                <div class="col-sm-6">
+                                  <label class="col-form-label">Calle</label>
+                                  <input type="text" name="calle" class="form-control" value="{{$empleado->persona->calle}}" placeholder="España">
+                                </div>
+                                  <div class="col-md-4">
+                                      <div class="form-group">
+                                        <label>Altura</label>
+                                        <input type="text" name="altura" class="form-control" value="{{$empleado->persona->altura}}" placeholder="1532">
+                                      </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                      <div class="form-group">
+                                        <label>Nro Dpto</label>
+                                        <input type="text" name="nro_dpto" class="form-control" value="{{$empleado->persona->nro_dpto}}" placeholder="12A">
+                                      </div>
+                                    </div>
+                                      <div class="col-md-4">
+                                        <div class="form-group">
+                                          <label>Nro Piso</label>
+                                          <input type="text" name="nro_piso" class="form-control" value="{{$empleado->persona->nro_piso}}" placeholder="2">
+                                        </div>
+                                      </div>
                                   </div>
-                                </div>
                             
                       </div>
                   </div>

@@ -59,7 +59,15 @@ class EmpleadoControlador extends Controller
             'nombre' => $request->input('nombre'),
             'apellido' => $request->input('apellido'),
             'dni' => $request->input('dni'),
-            'domicilio' => $request->input('domicilio')
+            'fecha_nac' => $request->input('fecha_nac'),
+            'celular' => $request->input('celular'),
+            'email'=>$request->email,
+            'sexo'=>$request->sexo,
+            'barrio'=>$request->barrio,
+            'calle'=>$request->calle,
+            'altura'=>$request->altura,
+            'nro_dpto'=>$request->nro_dpto,
+            'nro_piso'=>$request->nro_piso,
         ]);
         $empleado = Empleado::create([
             'persona_id' => $persona->id,
@@ -105,7 +113,16 @@ class EmpleadoControlador extends Controller
         Persona::find($empleado->persona_id)->update([
             'nombre' => $request->nombre,
             'apellido'=>$request->apellido,
-            'dni'=>$request->dni
+            'dni'=>$request->dni,
+            'fecha_nac' => $request->input('fecha_nac'),
+            'celular' => $request->input('celular'),
+            'email'=>$request->email,
+            'sexo'=>$request->sexo,
+            'barrio'=>$request->barrio,
+            'calle'=>$request->calle,
+            'altura'=>$request->altura,
+            'nro_dpto'=>$request->nro_dpto,
+            'nro_piso'=>$request->nro_piso,
         ]);
         return redirect()->route('empleados.index');
     }
